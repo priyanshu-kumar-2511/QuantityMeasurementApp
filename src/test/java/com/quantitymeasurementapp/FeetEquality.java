@@ -30,4 +30,11 @@ public class FeetEquality {
         Feet f = new Feet(1.0);
         assertTrue(f.equals(f));
     }
+    
+    @Test
+    void testEquality_NonNumericInput() {
+        assertThrows(NumberFormatException.class, () -> {
+            Double.parseDouble("abc");
+        });
+    }
 }
