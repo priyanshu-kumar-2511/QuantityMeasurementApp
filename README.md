@@ -18,7 +18,7 @@ measured in feet in the Quantity Measurement Application.
 ## 🗓 Day 2 – UC2: Feet and Inches measurement equality
 *(Date: 18-Feb-2026)*
 
-- Creating Feet class which is responsible for checking the equality of two numerical values
+- Creating Inches class which is responsible for checking the equality of two numerical values
 measured in feet in the Quantity Measurement Application.
 - Creating JUnit test cases : 
   - testEquality_SameValue()
