@@ -103,12 +103,10 @@ measured in feet in the Quantity Measurement Application.
 
 - Main Flow
   - Client calls Quantity Length.add(length1, length2, targetUnit) or uses an instance method to add two length measurements.
-
   - The method validates:
     - Both length1 and length2 are non-null and have valid LengthUnits.
     - All values are finite numbers (Double.isFinite or equivalent).
   - Convert both length1 and length2 to a common base unit (feet).
-  - Add the converted values.
   - Add the converted values.
   - Return a new Quantity Length object (or numeric value) representing the result in the unit of first operand.
 
@@ -126,4 +124,33 @@ measured in feet in the Quantity Measurement Application.
 
 🔗 *Code Link:*  
 [Day 6 – UC6: Addition of Two Length Units](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC6-UnitAddition/src)
+
+## UC7: Addition with Target Unit
+
+- Main Flow
+  - Client calls Quantity Length.add(length1, length2, targetUnit) with an explicit target unit parameter.
+  - The method validates:
+    - Both length1 and length2 are non-null and have valid LengthUnits.
+    - targetUnit is non-null and a valid LengthUnit.
+    - All values are finite numbers (Double.isFinite or equivalent).
+  - Convert both length1 and length2 to a common base unit (feet).
+  - Add the converted values.
+  - Convert the sum from the base unit to the explicitly specified targetUnit.
+  - Return a new Quantity Length object representing the result in the target unit.
+
+- Creating JUnit test cases : 
+  - testAddition_ExplicitTargetUnit_Feet()
+  - testAddition_ExplicitTargetUnit_Inches() 
+  - testAddition_ExplicitTargetUnit_Yards()
+  - testAddition_ExplicitTargetUnit_Centimeters() 
+  - testAddition_ExplicitTargetUnit_SameAsFirstOperand() 
+  - testAddition_ExplicitTargetUnit_SameAsSecondOperand()
+  - testAddition_ExplicitTargetUnit_Commutativity()
+  - testAddition_ExplicitTargetUnit_WithZero() 
+  - testAddition_ExplicitTargetUnit_NegativeValues()
+  - testAddition_ExplicitTargetUnit_NullTargetUnit()
+
+🔗 *Code Link:*  
+[Day 6 – UC7: Addition with Target Unit](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC7-TargetUnitAddition/src)
+
 
