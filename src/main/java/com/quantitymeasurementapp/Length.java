@@ -66,26 +66,42 @@ public final class Length {
         return new Length(convertedValue, targetUnit);
     }
     
+    // Private Add Method
+
+    private static Length addInternal(Length l1, Length l2, LengthUnit targetUnit) {
+
+        if (l1 == null || l2 == null) {
+            throw new IllegalArgumentException("Operands cannot be null.");
+        }
+
+        if (targetUnit == null) {
+            throw new IllegalArgumentException("Target unit cannot be null.");
+        }
+
+        if (!Double.isFinite(l1.value) || !Double.isFinite(l2.value)) {
+            throw new IllegalArgumentException("Values must be finite.");
+        }
+
+        double base1 = l1.toBaseUnit();
+        double base2 = l2.toBaseUnit();
+
+        double sumBase = base1 + base2;
+
+        double resultValue = sumBase / targetUnit.getConversionFactor();
+
+        return new Length(resultValue, targetUnit);
+    }
+
     // Addition 
 
     public Length add(Length other) {
+        return addInternal(this, other, this.unit);
+    }
 
-        if (other == null) {
-            throw new IllegalArgumentException("Second operand cannot be null.");
-        }
+    // Addition Target Unit
 
-        if (!Double.isFinite(other.value)) {
-            throw new IllegalArgumentException("Other value must be finite.");
-        }
-
-        double thisBase = this.toBaseUnit();
-        double otherBase = other.toBaseUnit();
-
-        double sumBase = thisBase + otherBase;
-
-        double resultValue = sumBase / this.unit.getConversionFactor();
-
-        return new Length(resultValue, this.unit);
+    public Length add(Length other, LengthUnit targetUnit) {
+        return addInternal(this, other, targetUnit);
     }
     
     // Equality
