@@ -98,3 +98,32 @@ measured in feet in the Quantity Measurement Application.
 🔗 *Code Link:*  
 [Day 5 – UC5: Unit-to-Unit Conversion](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC5-UnitConversion/src)
 
+## 🗓 Day 6 – UC6: Addition of Two Length Units
+*(Date: 22-Feb-2026)*
+
+- Main Flow
+  - Client calls Quantity Length.add(length1, length2, targetUnit) or uses an instance method to add two length measurements.
+
+  - The method validates:
+    - Both length1 and length2 are non-null and have valid LengthUnits.
+    - All values are finite numbers (Double.isFinite or equivalent).
+  - Convert both length1 and length2 to a common base unit (feet).
+  - Add the converted values.
+  - Add the converted values.
+  - Return a new Quantity Length object (or numeric value) representing the result in the unit of first operand.
+
+- Creating JUnit test cases : 
+  - testAddition_SameUnit_FeetPlusFeet()
+  - testAddition_SameUnit_InchPlusInch()
+  - testAddition_CrossUnit_FeetPlusInches()
+  - testAddition_CrossUnit_InchPlusFeet()
+  - testAddition_CrossUnit_YardPlusFeet() 
+  - testAddition_CrossUnit_CentimeterPlusInch()
+  - testAddition_Commutativity()
+  - testAddition_WithZero()
+  - testAddition_NegativeValues()
+  - testAddition_NullSecondOperand()
+
+🔗 *Code Link:*  
+[Day 6 – UC6: Addition of Two Length Units](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC6-UnitAddition/src)
+
