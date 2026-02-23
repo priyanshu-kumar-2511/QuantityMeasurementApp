@@ -22,32 +22,60 @@ public class QuantityMeasurementApp {
 		}
 	}
 	
+	private static void chooseOperation() {
+		System.out.println("\nChoose Operation:");
+        System.out.println("1. Compare Equality");
+        System.out.println("2. Convert Unit");
+        System.out.print("Enter choice: ");
+	}
+	
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
         try {
-        	System.out.println("Choose unit for first value: ");
+        	chooseOperation();
+        	int operation = Integer.parseInt(sc.nextLine());
+        	
+        	System.out.println("\nChoose unit for first value: ");
         	printUnits();
             int unitChoice1 = Integer.parseInt(sc.nextLine());
 
             System.out.print("Enter first value: ");
             double value1 = Double.parseDouble(sc.nextLine());
 
-            System.out.println("Choose unit for second value: ");
-            printUnits();
-            int unitChoice2 = Integer.parseInt(sc.nextLine());
-
-            System.out.print("Enter second value: ");
-            double value2 = Double.parseDouble(sc.nextLine());
-
             LengthUnit unit1 = Choice(unitChoice1); 
-            LengthUnit unit2 = Choice(unitChoice2);
+            if (operation == 1) {
 
-            Length l1 = new Length(value1, unit1);
-            Length l2 = new Length(value2, unit2);
+                System.out.println("\nChoose unit for second value:");
+                printUnits();
+                int unitChoice2 = Integer.parseInt(sc.nextLine());
 
-            System.out.println("Are equal? " + l1.equals(l2));
+                System.out.print("Enter second value: ");
+                double value2 = Double.parseDouble(sc.nextLine());
+
+                LengthUnit unit2 = Choice(unitChoice2);
+
+                Length l1 = new Length(value1, unit1);
+                Length l2 = new Length(value2, unit2);
+
+                System.out.println("Are equal? " + l1.equals(l2));
+
+            } else if (operation == 2) {
+
+                System.out.println("\nConvert to which unit?");
+                printUnits();
+                int targetChoice = Integer.parseInt(sc.nextLine());
+
+                LengthUnit targetUnit = Choice(targetChoice);
+
+                double convertedValue = Length.convert(value1, unit1, targetUnit);
+
+                System.out.println("Converted Value: " + convertedValue + " " + targetUnit);
+
+            } else {
+                throw new IllegalArgumentException("Invalid operation selected.");
+            }
  
        } catch (NumberFormatException e) {
             System.out.println("Invalid numeric input.");

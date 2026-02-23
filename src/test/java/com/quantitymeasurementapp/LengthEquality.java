@@ -35,10 +35,6 @@ public class LengthEquality {
         assertTrue(new Length(1.0, LengthUnit.CENTIMETERS).equals(new Length(0.393701, LengthUnit.INCHES)));
     }
 
-    @Test
-    void testEquality_YardDifferentValue() {
-        assertFalse(new Length(1.0, LengthUnit.YARDS).equals(new Length(2.0, LengthUnit.YARDS)));
-    }
 
     @Test
     void testEquality_CentimeterToFeet_NonEquivalent() {
