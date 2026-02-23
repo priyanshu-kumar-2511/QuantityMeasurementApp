@@ -187,3 +187,41 @@ measured in feet in the Quantity Measurement Application.
 
 🔗 *Code Link:*  
 [Day 6 – UC8: Refactoring Unit Enum to Standalone with Conversion Responsibility](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC8-StandaloneUnit/src)
+
+## UC9: Weight Measurement Equality, Conversion, and Addition (Kilogram, Gram, Pound)
+
+- Main Flow
+  - Equality Comparison:
+    - User inputs two numerical values with their respective weight unit types.
+    - QuantityWeight class validates the input values to ensure they are numeric and units are valid.
+    - Both values are converted to the common base unit (kilogram) using WeightUnit conversion methods.
+    - The converted values are compared for equality using the overridden equals() method.
+    - The result of the comparison (true or false) is returned.
+  - Unit Conversion:
+    - User inputs a numerical value, source unit, and target unit.
+    - QuantityWeight.convertTo(targetUnit) converts the measurement to the target unit.
+    - The method normalizes through the base unit (kilogram) and applies appropriate conversion factors.
+    - A new QuantityWeight object is returned with the converted value and target unit.
+  - Addition Operations:
+    - User inputs two QuantityWeight objects and optionally a target unit.
+    - Both measurements are converted to the base unit (kilogram).
+    - The converted values are summed.
+    - The result is converted to the target unit (either first operand's unit or explicitly specified unit).
+    - A new QuantityWeight object representing the sum is returned.
+
+
+- Creating JUnit test cases : 
+  - testEquality_KilogramToKilogram_SameValue()
+  - testEquality_KilogramToKilogram_DifferentValue() 
+  - testEquality_KilogramToGram_EquivalentValue() 
+  - testEquality_GramToKilogram_EquivalentValue() 
+  - testEquality_WeightVsLength_Incompatible()
+  - testEquality_NullComparison() 
+  - testEquality_SameReference()
+  - testEquality_NullUnit() 
+  - testEquality_TransitiveProperty()
+  - testEquality_ZeroValue()  
+
+🔗 *Code Link:*  
+[Day 6 – UC9: Weight Measurement Equality](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC9-WeightMeasurement/src)
+
