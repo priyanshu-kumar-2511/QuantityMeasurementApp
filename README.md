@@ -127,3 +127,102 @@ measured in feet in the Quantity Measurement Application.
 🔗 *Code Link:*  
 [Day 6 – UC6: Addition of Two Length Units](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC6-UnitAddition/src)
 
+## UC7: Addition with Target Unit
+
+- Main Flow
+  - Client calls Quantity Length.add(length1, length2, targetUnit) with an explicit target unit parameter.
+  - The method validates:
+    - Both length1 and length2 are non-null and have valid LengthUnits.
+    - targetUnit is non-null and a valid LengthUnit.
+    - All values are finite numbers (Double.isFinite or equivalent).
+  - Convert both length1 and length2 to a common base unit (feet).
+  - Add the converted values.
+  - Convert the sum from the base unit to the explicitly specified targetUnit.
+  - Return a new Quantity Length object representing the result in the target unit.
+
+- Creating JUnit test cases : 
+  - testAddition_ExplicitTargetUnit_Feet()
+  - testAddition_ExplicitTargetUnit_Inches() 
+  - testAddition_ExplicitTargetUnit_Yards()
+  - testAddition_ExplicitTargetUnit_Centimeters() 
+  - testAddition_ExplicitTargetUnit_SameAsFirstOperand() 
+  - testAddition_ExplicitTargetUnit_SameAsSecondOperand()
+  - testAddition_ExplicitTargetUnit_Commutativity()
+  - testAddition_ExplicitTargetUnit_WithZero() 
+  - testAddition_ExplicitTargetUnit_NegativeValues()
+  - testAddition_ExplicitTargetUnit_NullTargetUnit()
+
+🔗 *Code Link:*  
+[Day 6 – UC7: Addition with Target Unit](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC7-TargetUnitAddition/src)
+
+## UC8: Refactoring Unit Enum to Standalone with Conversion Responsibility
+
+- Main Flow
+  - Enum Refactoring:
+    - Move LengthUnit from inside QuantityLength to a standalone top-level class.
+    - Add conversion responsibility to LengthUnit: methods to convert from base unit and to base unit.
+  - Unit Conversion Logic:
+    - Implement convertToBaseUnit(double value) method in LengthUnit to convert a value in this unit to feet (base unit).
+    - Implement convertFromBaseUnit(double baseValue) method in LengthUnit to convert a base unit value (feet) to this unit.
+  - QuantityLength Simplification:
+    - Remove internal conversion logic from QuantityLength.
+    - Delegate all conversion operations to the unit's conversion methods.
+    - QuantityLength now focuses solely on value comparison and arithmetic logic.
+  - Backward Compatibility:
+    - All existing test cases from UC1–UC7 pass without modification.
+    - Client code continues to work with the same public API.
+  - Scalability Pattern:
+    - The refactored design establishes a pattern for future measurement categories.
+    - New units (WeightUnit, VolumeUnit, TemperatureUnit) can follow the same extraction and responsibility pattern.
+
+- Creating JUnit test cases : 
+  - testLengthUnitEnum_FeetConstant() 
+  - testLengthUnitEnum_InchesConstant() 
+  - testLengthUnitEnum_YardsConstant()
+  - testLengthUnitEnum_CentimetersConstant() 
+  - testConvertToBaseUnit_FeetToFeet()
+  - testConvertToBaseUnit_InchesToFeet() 
+  - testConvertToBaseUnit_YardsToFeet()
+  - testConvertToBaseUnit_CentimetersToFeet() 
+  - testConvertFromBaseUnit_FeetToFeet()
+  - testConvertFromBaseUnit_FeetToInches() 
+
+🔗 *Code Link:*  
+[Day 6 – UC8: Refactoring Unit Enum to Standalone with Conversion Responsibility](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC8-StandaloneUnit/src)
+
+## UC9: Weight Measurement Equality, Conversion, and Addition (Kilogram, Gram, Pound)
+
+- Main Flow
+  - Equality Comparison:
+    - User inputs two numerical values with their respective weight unit types.
+    - QuantityWeight class validates the input values to ensure they are numeric and units are valid.
+    - Both values are converted to the common base unit (kilogram) using WeightUnit conversion methods.
+    - The converted values are compared for equality using the overridden equals() method.
+    - The result of the comparison (true or false) is returned.
+  - Unit Conversion:
+    - User inputs a numerical value, source unit, and target unit.
+    - QuantityWeight.convertTo(targetUnit) converts the measurement to the target unit.
+    - The method normalizes through the base unit (kilogram) and applies appropriate conversion factors.
+    - A new QuantityWeight object is returned with the converted value and target unit.
+  - Addition Operations:
+    - User inputs two QuantityWeight objects and optionally a target unit.
+    - Both measurements are converted to the base unit (kilogram).
+    - The converted values are summed.
+    - The result is converted to the target unit (either first operand's unit or explicitly specified unit).
+    - A new QuantityWeight object representing the sum is returned.
+
+
+- Creating JUnit test cases : 
+  - testEquality_KilogramToKilogram_SameValue()
+  - testEquality_KilogramToKilogram_DifferentValue() 
+  - testEquality_KilogramToGram_EquivalentValue() 
+  - testEquality_GramToKilogram_EquivalentValue() 
+  - testEquality_WeightVsLength_Incompatible()
+  - testEquality_NullComparison() 
+  - testEquality_SameReference()
+  - testEquality_NullUnit() 
+  - testEquality_TransitiveProperty()
+  - testEquality_ZeroValue()  
+
+🔗 *Code Link:*  
+[Day 6 – UC9: Weight Measurement Equality](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC9-WeightMeasurement/src)
