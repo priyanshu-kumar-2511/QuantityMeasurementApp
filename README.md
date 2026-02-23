@@ -153,4 +153,37 @@ measured in feet in the Quantity Measurement Application.
 🔗 *Code Link:*  
 [Day 6 – UC7: Addition with Target Unit](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC7-TargetUnitAddition/src)
 
+## UC8: Refactoring Unit Enum to Standalone with Conversion Responsibility
 
+- Main Flow
+  - Enum Refactoring:
+    - Move LengthUnit from inside QuantityLength to a standalone top-level class.
+    - Add conversion responsibility to LengthUnit: methods to convert from base unit and to base unit.
+  - Unit Conversion Logic:
+    - Implement convertToBaseUnit(double value) method in LengthUnit to convert a value in this unit to feet (base unit).
+    - Implement convertFromBaseUnit(double baseValue) method in LengthUnit to convert a base unit value (feet) to this unit.
+  - QuantityLength Simplification:
+    - Remove internal conversion logic from QuantityLength.
+    - Delegate all conversion operations to the unit's conversion methods.
+    - QuantityLength now focuses solely on value comparison and arithmetic logic.
+  - Backward Compatibility:
+    - All existing test cases from UC1–UC7 pass without modification.
+    - Client code continues to work with the same public API.
+  - Scalability Pattern:
+    - The refactored design establishes a pattern for future measurement categories.
+    - New units (WeightUnit, VolumeUnit, TemperatureUnit) can follow the same extraction and responsibility pattern.
+
+- Creating JUnit test cases : 
+  - testLengthUnitEnum_FeetConstant() 
+  - testLengthUnitEnum_InchesConstant() 
+  - testLengthUnitEnum_YardsConstant()
+  - testLengthUnitEnum_CentimetersConstant() 
+  - testConvertToBaseUnit_FeetToFeet()
+  - testConvertToBaseUnit_InchesToFeet() 
+  - testConvertToBaseUnit_YardsToFeet()
+  - testConvertToBaseUnit_CentimetersToFeet() 
+  - testConvertFromBaseUnit_FeetToFeet()
+  - testConvertFromBaseUnit_FeetToInches() 
+
+🔗 *Code Link:*  
+[Day 6 – UC8: Refactoring Unit Enum to Standalone with Conversion Responsibility](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC8-StandaloneUnit/src)
