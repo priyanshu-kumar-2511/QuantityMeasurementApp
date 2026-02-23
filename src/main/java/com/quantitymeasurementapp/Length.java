@@ -23,10 +23,24 @@ public final class Length {
         this.unit = unit;
     }
 
+    // Getters
+    
+    public double getValue() {
+        return value;
+    }
+
+    public LengthUnit getUnit() {
+        return unit;
+    }
+    
+    // Base Conversion
+    
     private double toBaseUnit() {
         return value * unit.getConversionFactor();
     }
 
+    // static conversion
+    
     public static double convert(double value, LengthUnit source, LengthUnit target) {
     	if (!Double.isFinite(value)) {
             throw new IllegalArgumentException("Value must be finite.");
@@ -40,6 +54,8 @@ public final class Length {
         return valueInBase / target.getConversionFactor();
     }
     
+    // instance conversion
+    
     public Length convertTo(LengthUnit targetUnit) {
 
         if (targetUnit == null) {
@@ -49,6 +65,30 @@ public final class Length {
         double convertedValue = convert(this.value, this.unit, targetUnit);
         return new Length(convertedValue, targetUnit);
     }
+    
+    // Addition 
+
+    public Length add(Length other) {
+
+        if (other == null) {
+            throw new IllegalArgumentException("Second operand cannot be null.");
+        }
+
+        if (!Double.isFinite(other.value)) {
+            throw new IllegalArgumentException("Other value must be finite.");
+        }
+
+        double thisBase = this.toBaseUnit();
+        double otherBase = other.toBaseUnit();
+
+        double sumBase = thisBase + otherBase;
+
+        double resultValue = sumBase / this.unit.getConversionFactor();
+
+        return new Length(resultValue, this.unit);
+    }
+    
+    // Equality
     
     @Override
     public boolean equals(Object obj) {
