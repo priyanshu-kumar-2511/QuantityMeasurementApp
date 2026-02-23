@@ -2,18 +2,28 @@ package com.quantitymeasurementapp;
 
 public enum LengthUnit {
 
-    FEET(12.0),               // 1 foot = 12 inches
-    INCHES(1.0),              // base unit = inch
-	YARDS(36.0),              // 1 yard = 36 inches
-	CENTIMETERS(0.393701);    // 1 cm = 0.393701 inches
+    FEET(1.0),               // base unit = feet
+    INCHES(1.0 / 12.0),              
+	YARDS(3.0),              
+	CENTIMETERS(1.0 / 30.48);    
 
-    private final double conversionFactorToInches;
+    private final double conversionFactor;
 
-    LengthUnit(double conversionFactorToInches) {
-        this.conversionFactorToInches = conversionFactorToInches;
+    LengthUnit(double conversionFactor) {
+        this.conversionFactor = conversionFactor;
     }
 
     public double getConversionFactor() {
-        return conversionFactorToInches;
+        return conversionFactor;
     }
+    
+    // Convert value in this unit to base unit (feet)
+    public double convertToBaseUnit(double value) {
+        return value * conversionFactor;
+    }
+
+    // Convert base unit (feet) value to this unit
+    public double convertFromBaseUnit(double baseValue) {
+        return baseValue / conversionFactor;
+    }    
 }

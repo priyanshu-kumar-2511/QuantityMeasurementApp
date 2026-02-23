@@ -33,12 +33,6 @@ public final class Length {
         return unit;
     }
     
-    // Base Conversion
-    
-    private double toBaseUnit() {
-        return value * unit.getConversionFactor();
-    }
-
     // static conversion
     
     public static double convert(double value, LengthUnit source, LengthUnit target) {
@@ -50,8 +44,8 @@ public final class Length {
             throw new IllegalArgumentException("Units must not be null.");
         }
 
-        double valueInBase = value * source.getConversionFactor();
-        return valueInBase / target.getConversionFactor();
+        double base = source.convertToBaseUnit(value);
+        return target.convertFromBaseUnit(base);
     }
     
     // instance conversion
@@ -62,8 +56,10 @@ public final class Length {
             throw new IllegalArgumentException("Target unit must not be null.");
         }
 
-        double convertedValue = convert(this.value, this.unit, targetUnit);
-        return new Length(convertedValue, targetUnit);
+        double base = unit.convertToBaseUnit(value);
+        double converted = targetUnit.convertFromBaseUnit(base);
+
+        return new Length(converted, targetUnit);
     }
     
     // Private Add Method
@@ -78,18 +74,14 @@ public final class Length {
             throw new IllegalArgumentException("Target unit cannot be null.");
         }
 
-        if (!Double.isFinite(l1.value) || !Double.isFinite(l2.value)) {
-            throw new IllegalArgumentException("Values must be finite.");
-        }
-
-        double base1 = l1.toBaseUnit();
-        double base2 = l2.toBaseUnit();
+        double base1 = l1.unit.convertToBaseUnit(l1.value);
+        double base2 = l2.unit.convertToBaseUnit(l2.value);
 
         double sumBase = base1 + base2;
 
-        double resultValue = sumBase / targetUnit.getConversionFactor();
+        double result = targetUnit.convertFromBaseUnit(sumBase);
 
-        return new Length(resultValue, targetUnit);
+        return new Length(result, targetUnit);
     }
 
     // Addition 
@@ -110,18 +102,21 @@ public final class Length {
     public boolean equals(Object obj) {
 
         if (this == obj) return true;
-
-        if (obj == null || getClass() != obj.getClass())
-            return false;
+        if (obj == null || getClass() != obj.getClass()) return false;
 
         Length other = (Length) obj;
 
-        return Math.abs(this.toBaseUnit() - other.toBaseUnit()) < EPS;
+        double base1 = this.unit.convertToBaseUnit(this.value);
+        double base2 = other.unit.convertToBaseUnit(other.value);
+
+        return Math.abs(base1 - base2) < EPS;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Math.round(toBaseUnit() / EPS));
+        double base = unit.convertToBaseUnit(value);
+        long normalized = Math.round(base / EPS);
+        return Objects.hash(normalized);
     }
     
     @Override
