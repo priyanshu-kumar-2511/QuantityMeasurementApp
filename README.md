@@ -71,3 +71,31 @@ measured in feet in the Quantity Measurement Application.
 
 🔗 *Code Link:*  
 [Day 4 – UC4: Extended Unit Support](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC4-YardEquality/src)
+
+## 🗓 Day 5 – UC5: Unit-to-Unit Conversion
+*(Date: 21-Feb-2026)*
+
+- Main Flow
+  - Client calls Quantity Length.convert(value, sourceUnit, targetUnit) or uses an instance method to request conversion.
+  - The method validates:
+    - value is a finite number (Double.isFinite or equivalent).
+    - sourceUnit and targetUnit are non-null and members of LengthUnit.
+  - Convert the input value to the common base unit (e.g., feet) using sourceUnit.getConversionFactor().
+  - Convert from the base unit to the target unit by dividing by targetUnit.getConversionFactor() (or multiplying by appropriate reciprocal).
+  - Apply optional rounding or precision handling (caller-specified or a default epsilon).
+  - Return the converted numeric value to the caller.
+
+- Creating JUnit test cases : 
+  - testConversion_FeetToInches()
+  - testConversion_InchesToFeet()
+  - testConversion_YardsToInches()
+  - testConversion_InchesToYards()
+  - testConversion_CentimetersToInches() 
+  - testConversion_FeatToYard()
+  - testConversion_RoundTrip_PreservesValue()
+  - testConversion_ZeroValue()
+
+🔗 *Code Link:*  
+[Day 5 – UC5: Unit-to-Unit Conversion](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC5-UnitConversion/src)
+
+
