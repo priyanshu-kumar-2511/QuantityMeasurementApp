@@ -9,6 +9,7 @@ public class QuantityMeasurementApp {
         System.out.println("1. Length");
         System.out.println("2. Weight");
         System.out.println("3. Volume");
+        System.out.println("4. Temperature");   
         System.out.print("Enter choice: ");
     }
 
@@ -37,11 +38,14 @@ public class QuantityMeasurementApp {
                 case 1 -> handleLength(sc, operation);
                 case 2 -> handleWeight(sc, operation);
                 case 3 -> handleVolume(sc, operation);
+                case 4 -> handleTemperature(sc, operation);   // ✅ added
                 default -> System.out.println("Invalid category selected.");
             }
 
         } catch (NumberFormatException e) {
             System.out.println("Invalid numeric input.");
+        } catch (UnsupportedOperationException e) {
+            System.out.println("Operation not supported: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
@@ -76,7 +80,16 @@ public class QuantityMeasurementApp {
         performOperation(sc, operation, q1, units);
     }
 
-    // ---------------- PRINT UNITS GENERIC ----------------
+    // ---------------- TEMPERATURE (UC14) ----------------
+
+    private static void handleTemperature(Scanner sc, int operation) {
+        TemperatureUnit[] units = TemperatureUnit.values();
+        printUnits(units);
+        Quantity<TemperatureUnit> q1 = createQuantity(sc, units);
+        performOperation(sc, operation, q1, units);
+    }
+
+    // ---------------- PRINT UNITS ----------------
 
     private static <U extends IMeasurable> void printUnits(U[] units) {
         System.out.println("Available Units:");
@@ -129,7 +142,7 @@ public class QuantityMeasurementApp {
 
             case 3 -> {
                 Quantity<U> q2 = createQuantity(sc, units);
-                Quantity<U> result = q1.add(q2);
+                Quantity<U> result = q1.add(q2);   // Temperature will throw exception
                 System.out.println("Addition Result: " + result);
             }
 
@@ -162,7 +175,7 @@ public class QuantityMeasurementApp {
 
             case 5 -> {
                 Quantity<U> q2 = createQuantity(sc, units);
-                double result = q1.divide(q2);
+                double result = q1.divide(q2);   // Temperature will throw exception
                 System.out.println("Division Result (ratio): " + result);
             }
 

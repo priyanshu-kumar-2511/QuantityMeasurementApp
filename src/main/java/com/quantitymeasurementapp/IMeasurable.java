@@ -1,16 +1,26 @@
 package com.quantitymeasurementapp;
 
+@FunctionalInterface
+interface SupportsArithmetic {
+    boolean isSupported();
+}
+
 public interface IMeasurable {
 
+    // Conversion methods 
+    double convertToBaseUnit(double value);
+    double convertFromBaseUnit(double baseValue);
     double getConversionFactor();
-
     String getUnitName();
 
-    default double convertToBaseUnit(double value) {
-        return value * getConversionFactor();
+    // Default arithmetic capability 
+    SupportsArithmetic supportsArithmetic = () -> true;
+
+    default boolean supportsArithmetic() {
+        return supportsArithmetic.isSupported();
     }
 
-    default double convertFromBaseUnit(double baseValue) {
-        return baseValue / getConversionFactor();
+    // Default validation 
+    default void validateOperationSupport(String operation) {
     }
 }

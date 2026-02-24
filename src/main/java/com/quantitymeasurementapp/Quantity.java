@@ -10,6 +10,7 @@ public final class Quantity<U extends IMeasurable> {
     private static final double EPS = 1e-6;
 
     public Quantity(double value, U unit) {
+
         if (unit == null)
             throw new IllegalArgumentException("Unit cannot be null");
 
@@ -32,6 +33,7 @@ public final class Quantity<U extends IMeasurable> {
 
     @Override
     public boolean equals(Object obj) {
+
         if (this == obj) return true;
         if (!(obj instanceof Quantity<?> other)) return false;
 
@@ -46,7 +48,9 @@ public final class Quantity<U extends IMeasurable> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(unit.convertToBaseUnit(value));
+        // Must align with epsilon comparison
+        double base = unit.convertToBaseUnit(value);
+        return Objects.hash(Math.round(base / EPS));
     }
 
     @Override
@@ -57,6 +61,7 @@ public final class Quantity<U extends IMeasurable> {
     // ================= CONVERSION =================
 
     public Quantity<U> convertTo(U targetUnit) {
+
         validateCategory(targetUnit);
 
         double base = unit.convertToBaseUnit(value);
@@ -72,9 +77,11 @@ public final class Quantity<U extends IMeasurable> {
     }
 
     public Quantity<U> add(Quantity<U> other, U targetUnit) {
-        validateOperands(other, targetUnit, true);
-        double result = performBaseArithmetic(other, Operation.ADD);
-        return buildResult(result, targetUnit);
+
+        validateOperands(other, targetUnit, true, "ADD");
+
+        double resultBase = performBaseArithmetic(other, Operation.ADD);
+        return buildResult(resultBase, targetUnit);
     }
 
     public Quantity<U> subtract(Quantity<U> other) {
@@ -82,19 +89,27 @@ public final class Quantity<U extends IMeasurable> {
     }
 
     public Quantity<U> subtract(Quantity<U> other, U targetUnit) {
-        validateOperands(other, targetUnit, true);
-        double result = performBaseArithmetic(other, Operation.SUBTRACT);
-        return buildResult(result, targetUnit);
+
+        validateOperands(other, targetUnit, true, "SUBTRACT");
+
+        double resultBase = performBaseArithmetic(other, Operation.SUBTRACT);
+        return buildResult(resultBase, targetUnit);
     }
 
     public double divide(Quantity<U> other) {
-        validateOperands(other, null, false);
+
+        validateOperands(other, null, false, "DIVIDE");
+
         return performBaseArithmetic(other, Operation.DIVIDE);
     }
 
     // ================= CENTRALIZED VALIDATION =================
 
-    private void validateOperands(Quantity<U> other, U targetUnit, boolean requireTarget) {
+    private void validateOperands(
+            Quantity<U> other,
+            U targetUnit,
+            boolean requireTarget,
+            String operation) {
 
         if (other == null)
             throw new IllegalArgumentException("Operand cannot be null");
@@ -105,6 +120,9 @@ public final class Quantity<U extends IMeasurable> {
         if (!Double.isFinite(value) || !Double.isFinite(other.value))
             throw new IllegalArgumentException("Values must be finite");
 
+        // 🔥 UC14 critical addition
+        unit.validateOperationSupport(operation);
+
         if (requireTarget) {
             if (targetUnit == null)
                 throw new IllegalArgumentException("Target unit cannot be null");
@@ -114,6 +132,9 @@ public final class Quantity<U extends IMeasurable> {
     }
 
     private void validateCategory(U unitCheck) {
+        if (unitCheck == null)
+            throw new IllegalArgumentException("Target unit cannot be null");
+
         if (!unitCheck.getClass().equals(unit.getClass()))
             throw new IllegalArgumentException("Invalid target unit category");
     }
@@ -121,12 +142,15 @@ public final class Quantity<U extends IMeasurable> {
     // ================= CORE ARITHMETIC =================
 
     private double performBaseArithmetic(Quantity<U> other, Operation op) {
+
         double base1 = unit.convertToBaseUnit(value);
         double base2 = other.unit.convertToBaseUnit(other.value);
+
         return op.compute(base1, base2);
     }
 
     private Quantity<U> buildResult(double baseValue, U targetUnit) {
+
         double converted = targetUnit.convertFromBaseUnit(baseValue);
         return new Quantity<>(round(converted), targetUnit);
     }
