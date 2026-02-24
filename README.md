@@ -225,3 +225,31 @@ measured in feet in the Quantity Measurement Application.
 🔗 *Code Link:*  
 [Day 6 – UC9: Weight Measurement Equality](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC9-WeightMeasurement/src)
 
+## 🗓 Day 7 – UC10: Generic Quantity Class with IMeasurable Interface
+*(Date: 23-Feb-2026)*
+
+- Main Flow
+  - Introduced Measurable interface.
+  - Refactored LengthUnit and WeightUnit to implement interface.
+  - Created generic class Quantity<U extends IMeasurable>.
+  - Removed duplicate Quantity classes.
+  - Prevented cross-category comparison using unit.getClass().
+  - Used Double.compare() for equality.
+  - Rounded conversion results to 2 decimal places.
+  - Simplified QuantityMeasurementApp using generic methods.
+  - Restored DRY and SRP principles.
+
+- Creating JUnit test cases :
+  - testIMeasurableInterface_LengthUnitImplementation()
+  - testIMeasurableInterface_WeightUnitImplementation()
+  - testGenericQuantity_LengthOperations_Equality()
+  - testGenericQuantity_WeightOperations_Equality()
+  - testGenericQuantity_LengthOperations_Conversion()
+  - testGenericQuantity_WeightOperations_Addition()
+  - testCrossCategoryPrevention_LengthVsWeight()
+  - testGenericQuantity_ConstructorValidation_NullUnit()
+  - testGenericQuantity_ConstructorValidation_InvalidValue()
+  - testHashCode_GenericQuantity_Consistency()
+
+🔗 *Code Link:*  
+[Day 7 – UC10: Generic Quantity Class with IMeasurable Interface](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC10-GenericQuantity/src)
