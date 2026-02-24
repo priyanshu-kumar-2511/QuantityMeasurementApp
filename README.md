@@ -226,3 +226,106 @@ measured in feet in the Quantity Measurement Application.
 
 🔗 *Code Link:*  
 [Day 6 – UC9: Weight Measurement Equality](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC9-WeightMeasurement/src)
+
+## 🗓 Day 7 – UC10: Generic Quantity Class with IMeasurable Interface
+*(Date: 23-Feb-2026)*
+
+- Main Flow
+  - Introduced Measurable interface.
+  - Refactored LengthUnit and WeightUnit to implement interface.
+  - Created generic class Quantity<U extends IMeasurable>.
+  - Removed duplicate Quantity classes.
+  - Prevented cross-category comparison using unit.getClass().
+  - Used Double.compare() for equality.
+  - Rounded conversion results to 2 decimal places.
+  - Simplified QuantityMeasurementApp using generic methods.
+  - Restored DRY and SRP principles.
+
+- Creating JUnit test cases :
+  - testIMeasurableInterface_LengthUnitImplementation()
+  - testIMeasurableInterface_WeightUnitImplementation()
+  - testGenericQuantity_LengthOperations_Equality()
+  - testGenericQuantity_WeightOperations_Equality()
+  - testGenericQuantity_LengthOperations_Conversion()
+  - testGenericQuantity_WeightOperations_Addition()
+  - testCrossCategoryPrevention_LengthVsWeight()
+  - testGenericQuantity_ConstructorValidation_NullUnit()
+  - testGenericQuantity_ConstructorValidation_InvalidValue()
+  - testHashCode_GenericQuantity_Consistency()
+
+🔗 *Code Link:*  
+[Day 7 – UC10: Generic Quantity Class with IMeasurable Interface](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC10-GenericQuantity/src)
+
+## UC11: Volume Measurement Equality, Conversion, and Addition
+
+- Main Flow
+  - Introduced VolumeUnit enum implementing IMeasurable.
+  - Base unit: LITRE.
+  - Supported units: LITRE, MILLILITRE, GALLON.
+  - No modification required in generic Quantity class.
+  - Supports equality, conversion, addition.
+  - Cross-category comparison prevention maintained.
+
+- Creating JUnit test cases :
+  - testEquality_LitreToMillilitre()
+  - testEquality_LitreToGallon()
+  - testConversion_LitreToMillilitre()
+  - testConversion_LitreToGallon()
+  - testAddition_SameUnit()
+  - testAddition_CrossUnit()
+  - testVolumeVsLength_Incompatible()
+  - testVolumeVsWeight_Incompatible()
+  - testHashCodeConsistency()
+
+🔗 *Code Link:*  
+[Day 7 – UC11: Volume Measurement](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC11-VolumeMeasurement/src)
+
+## UC12: Subtraction and Division Operations on Quantity Measurements
+
+- Main Flow (Subtraction)
+  - Client calls Quantity.subtract(quantity1, quantity2) 
+    or Quantity.subtract(quantity1, quantity2, targetUnit).
+  - The method validates:
+    - Both operands are non-null.
+    - Units belong to the same measurement category (Length, Weight, Volume).
+    - Values are finite numbers (Double.isFinite).
+    - targetUnit is non-null for explicit subtraction.
+  - Both operands are converted to a common base unit using convertToBaseUnit().
+  - Subtraction is performed on base values.
+  - The result is converted back to the target unit 
+    (implicit: first operand’s unit, or explicit targetUnit).
+  - The result is rounded to two decimal places.
+  - A new Quantity object is returned (immutability preserved).
+
+- Main Flow (Division)
+  - Client calls Quantity.divide(quantity1, quantity2).
+  - The method validates:
+    - Operand is non-null.
+    - Units belong to same category.
+    - Values are finite.
+    - Divisor is not zero.
+  - Both operands are converted to base unit.
+  - Division is performed on base values.
+  - Returns a dimensionless double value (no rounding applied).
+
+- Creating JUnit test cases :
+  - testSubtract_SameUnit()
+  - testSubtract_CrossUnit()
+  - testSubtract_WithExplicitTargetUnit()
+  - testSubtract_NonCommutativeBehavior()
+  - testSubtract_WithZero()
+  - testSubtract_NegativeResult()
+  - testSubtract_NullOperand()
+  - testDivide_SameUnit()
+  - testDivide_CrossUnit()
+  - testDivide_ReturnsScalar()
+  - testDivide_ByZeroThrowsException()
+  - testDivide_NullOperand()
+  - testCrossCategory_SubtractRejected()
+  - testCrossCategory_DivideRejected()
+  - testImmutability_AfterSubtract()
+  - testImmutability_AfterDivide()
+
+🔗 *Code Link:*  
+[Day 7 – UC12: Subtraction and Division Operations](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC12-SubtractionDivisionOperation/src)
+
