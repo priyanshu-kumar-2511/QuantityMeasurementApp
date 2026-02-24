@@ -4,84 +4,143 @@ import java.util.Scanner;
 
 public class QuantityMeasurementApp {
 
-	private static void printUnits() {
-		System.out.println("1. Feet");
-		System.out.println("2. Inches");
-		System.out.println("3. Yards");
-		System.out.println("4. Centimeters");
-		System.out.print("Enter choice: ");
-	}
-	
-	private static LengthUnit Choice(int choice) {
-		switch (choice) {
-		case 1: return LengthUnit.FEET;
-		case 2: return LengthUnit.INCHES;
-		case 3: return LengthUnit.YARDS;
-		case 4: return LengthUnit.CENTIMETERS;
-		default: throw new IllegalArgumentException("Invalid unit.");
-		}
-	}
-	
-	private static void chooseOperation() {
-		System.out.println("\nChoose Operation:");
+    private static void printCategory() {
+        System.out.println("\nChoose Category:");
+        System.out.println("1. Length");
+        System.out.println("2. Weight");
+        System.out.println("3. Volume");
+        System.out.print("Enter choice: ");
+    }
+
+    private static void printOperation() {
+        System.out.println("\nChoose Operation:");
         System.out.println("1. Compare Equality");
         System.out.println("2. Convert Unit");
+        System.out.println("3. Add Quantities");
         System.out.print("Enter choice: ");
-	}
-	
+    }
+
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
         try {
-        	chooseOperation();
-        	int operation = Integer.parseInt(sc.nextLine());
-        	
-        	System.out.println("\nChoose unit for first value: ");
-        	printUnits();
-            int unitChoice1 = Integer.parseInt(sc.nextLine());
+            printCategory();
+            int category = Integer.parseInt(sc.nextLine());
 
-            System.out.print("Enter first value: ");
-            double value1 = Double.parseDouble(sc.nextLine());
+            printOperation();
+            int operation = Integer.parseInt(sc.nextLine());
 
-            LengthUnit unit1 = Choice(unitChoice1); 
-            if (operation == 1) {
-
-                System.out.println("\nChoose unit for second value:");
-                printUnits();
-                int unitChoice2 = Integer.parseInt(sc.nextLine());
-
-                System.out.print("Enter second value: ");
-                double value2 = Double.parseDouble(sc.nextLine());
-
-                LengthUnit unit2 = Choice(unitChoice2);
-
-                Length l1 = new Length(value1, unit1);
-                Length l2 = new Length(value2, unit2);
-
-                System.out.println("Are equal? " + l1.equals(l2));
-
-            } else if (operation == 2) {
-
-                System.out.println("\nConvert to which unit?");
-                printUnits();
-                int targetChoice = Integer.parseInt(sc.nextLine());
-
-                LengthUnit targetUnit = Choice(targetChoice);
-
-                double convertedValue = Length.convert(value1, unit1, targetUnit);
-
-                System.out.println("Converted Value: " + convertedValue + " " + targetUnit);
-
-            } else {
-                throw new IllegalArgumentException("Invalid operation selected.");
+            switch (category) {
+                case 1:
+                    handleLength(sc, operation);
+                    break;
+                case 2:
+                    handleWeight(sc, operation);
+                    break;
+                case 3:
+                    handleVolume(sc, operation);
+                    break;
+                default:
+                    System.out.println("Invalid category selected.");
             }
- 
-       } catch (NumberFormatException e) {
-            System.out.println("Invalid numeric input.");
-       } catch (IllegalArgumentException e) {
-    	   System.out.println(e.getMessage());
-       }
-       sc.close();    
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        sc.close();
+    }
+
+    // ---------------- LENGTH ----------------
+
+    private static void handleLength(Scanner sc, int operation) {
+
+        LengthUnit[] units = LengthUnit.values();
+        System.out.println("Units: 1.FEET  2.INCHES  3.YARDS  4.CENTIMETERS");
+
+        Quantity<LengthUnit> q1 = createQuantity(sc, units);
+
+        performOperation(sc, operation, q1, units);
+    }
+
+    // ---------------- WEIGHT ----------------
+
+    private static void handleWeight(Scanner sc, int operation) {
+
+        WeightUnit[] units = WeightUnit.values();
+        System.out.println("Units: 1.KILOGRAM  2.GRAM  3.POUND");
+
+        Quantity<WeightUnit> q1 = createQuantity(sc, units);
+
+        performOperation(sc, operation, q1, units);
+    }
+
+    // ---------------- VOLUME ----------------
+
+    private static void handleVolume(Scanner sc, int operation) {
+
+        VolumeUnit[] units = VolumeUnit.values();
+        System.out.println("Units: 1.LITRE  2.MILLILITRE  3.GALLON");
+
+        Quantity<VolumeUnit> q1 = createQuantity(sc, units);
+
+        performOperation(sc, operation, q1, units);
+    }
+
+    // ---------------- CREATE QUANTITY SAFELY ----------------
+
+    private static <U extends IMeasurable> Quantity<U> createQuantity(
+            Scanner sc, U[] units) {
+
+        System.out.print("Choose unit: ");
+        int index = Integer.parseInt(sc.nextLine()) - 1;
+
+        if (index < 0 || index >= units.length) {
+            throw new IllegalArgumentException("Invalid unit selection.");
+        }
+
+        System.out.print("Enter value: ");
+        double value = Double.parseDouble(sc.nextLine());
+
+        return new Quantity<>(value, units[index]);
+    }
+
+    // ---------------- GENERIC OPERATION HANDLER ----------------
+
+    private static <U extends IMeasurable> void performOperation(
+            Scanner sc, int operation,
+            Quantity<U> q1, U[] units) {
+
+        if (operation == 1) {
+
+            Quantity<U> q2 = createQuantity(sc, units);
+
+            System.out.println("Are equal? " + q1.equals(q2));
+
+        } else if (operation == 2) {
+
+            System.out.print("Convert to unit: ");
+            int index = Integer.parseInt(sc.nextLine()) - 1;
+
+            if (index < 0 || index >= units.length) {
+                throw new IllegalArgumentException("Invalid target unit.");
+            }
+
+            Quantity<U> converted = q1.convertTo(units[index]);
+
+            System.out.println("Converted Result: " + converted);
+
+        } else if (operation == 3) {
+
+            Quantity<U> q2 = createQuantity(sc, units);
+
+            Quantity<U> result = q1.add(q2);
+
+            System.out.println("Addition Result: " + result);
+
+        } else {
+            System.out.println("Invalid operation selected.");
+        }
     }
 }
