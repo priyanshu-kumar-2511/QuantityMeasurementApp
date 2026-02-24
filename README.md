@@ -329,3 +329,97 @@ measured in feet in the Quantity Measurement Application.
 🔗 *Code Link:*  
 [Day 7 – UC12: Subtraction and Division Operations](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC12-SubtractionDivisionOperation/src)
 
+## 🗓 Day 8 – UC13: Centralized Arithmetic Logic to Enforce DRY in Quantity Operations
+*(Date: 24-Feb-2026)*
+
+- Main Flow
+  - Introduced private enum ArithmeticOperation inside Quantity.
+  - Used DoubleBinaryOperator for centralized arithmetic execution.
+  - Created performBaseArithmetic() method:
+    - Converts operands to base unit.
+    - Delegates arithmetic operation to enum.
+  - Created validateArithmeticOperands() method:
+    - Ensures operands are non-null.
+    - Ensures same unit category.
+    - Ensures finite numeric values.
+    - Validates target unit (if required).
+  - Introduced buildResult() helper:
+    - Converts base result to target unit.
+    - Applies rounding (2 decimal precision).
+  - Preserved immutability (no mutation of existing objects).
+  - No changes to public API methods:
+    - add()
+    - subtract()
+    - divide()
+    - convertTo()
+
+- Creating JUnit Test Cases :
+  - testAdd_SameUnit()
+  - testAdd_CrossUnit()
+  - testAdd_WithExplicitTargetUnit()
+  - testSubtract_SameUnit()
+  - testSubtract_CrossUnit()
+  - testSubtract_WithExplicitTargetUnit()
+  - testDivide_SameUnit()
+  - testDivide_CrossUnit()
+  - testDivide_ByZeroThrowsException()
+  - testValidation_NullOperand()
+  - testValidation_CrossCategory()
+  - testImmutability_AfterAdd()
+  - testImmutability_AfterSubtract()
+  - testImmutability_AfterDivide()
+  - testHashCodeConsistency()
+  - testBehaviorPreserved_FromUC12()
+
+🔗 *Code Link:*  
+[Day 8 – UC13: Centralized Arithmetic Logic](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC13-CentralizedArithmeticLogic/src)
+
+## UC14: Temperature Measurement with Selective Arithmetic Support
+
+- Main Flow
+  - Introduced new enum TemperatureUnit implementing IMeasurable.
+  - Added units:
+    - CELSIUS (Base Unit)
+    - FAHRENHEIT
+    - KELVIN
+  - Implemented non-linear conversion logic using formulas:
+    - °F = (°C × 9/5) + 32
+    - °C = (°F − 32) × 5/9
+    - K = °C + 273.15
+    - °C = K − 273.15
+  - Refactored IMeasurable interface:
+    - Added default method supportsArithmetic()
+    - Added default method validateOperationSupport(String operation)
+  - TemperatureUnit overrides:
+    - supportsArithmetic() → returns false
+    - validateOperationSupport() → throws UnsupportedOperationException
+  - Updated Quantity class:
+    - Arithmetic methods now call unit.validateOperationSupport(operationName)
+    - Prevents unsupported operations before execution
+  - Preserved centralized arithmetic logic from UC13.
+  - Equality and conversion work normally for temperature.
+  - Cross-category comparison prevented using unit.getClass().
+  - Maintained immutability and DRY principle.
+  - No changes required in existing Length, Weight, Volume implementations.
+
+- Creating JUnit Test Cases :
+  - testTemperatureEquality_CelsiusToCelsius_SameValue()
+  - testTemperatureEquality_CelsiusToFahrenheit_0Equals32()
+  - testTemperatureEquality_CelsiusToKelvin_0Equals273()
+  - testTemperatureConversion_CelsiusToFahrenheit()
+  - testTemperatureConversion_FahrenheitToCelsius()
+  - testTemperatureConversion_CelsiusToKelvin()
+  - testTemperatureConversion_RoundTrip()
+  - testTemperatureConversion_NegativeValues()
+  - testTemperatureConversion_AbsoluteZero()
+  - testTemperatureUnsupportedOperation_Add()
+  - testTemperatureUnsupportedOperation_Subtract()
+  - testTemperatureUnsupportedOperation_Divide()
+  - testTemperatureVsLengthIncompatibility()
+  - testTemperatureVsWeightIncompatibility()
+  - testTemperatureVsVolumeIncompatibility()
+  - testOperationSupportMethods_TemperatureUnit()
+  - testBackwardCompatibility_UC1_UC13()
+
+🔗 *Code Link:*  
+[Day 8 – UC14: Temperature Measurement](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC14-TemperatureSupport/src)
