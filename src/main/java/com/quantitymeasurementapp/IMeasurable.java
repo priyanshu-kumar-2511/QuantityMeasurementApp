@@ -4,9 +4,13 @@ public interface IMeasurable {
 
     double getConversionFactor();
 
-    double convertToBaseUnit(double value);
-
-    double convertFromBaseUnit(double baseValue);
-
     String getUnitName();
+
+    default double convertToBaseUnit(double value) {
+        return value * getConversionFactor();
+    }
+
+    default double convertFromBaseUnit(double baseValue) {
+        return baseValue / getConversionFactor();
+    }
 }

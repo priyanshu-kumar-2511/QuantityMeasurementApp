@@ -1,12 +1,12 @@
 package com.quantitymeasurementapp;
 
 import java.util.Objects;
+import java.util.function.DoubleBinaryOperator;
 
-public class Quantity<U extends IMeasurable> {
+public final class Quantity<U extends IMeasurable> {
 
     private final double value;
     private final U unit;
-
     private static final double EPS = 1e-6;
 
     public Quantity(double value, U unit) {
@@ -28,121 +28,135 @@ public class Quantity<U extends IMeasurable> {
         return unit;
     }
 
-    private double toBase() {
-        return unit.convertToBaseUnit(value);
-    }
-
-    // ---------------- EQUALITY ----------------
+    // ================= EQUALITY =================
 
     @Override
     public boolean equals(Object obj) {
-
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!(obj instanceof Quantity<?> other)) return false;
 
-        Quantity<?> other = (Quantity<?>) obj;
-
-        if (this.unit.getClass() != other.unit.getClass())
+        if (!unit.getClass().equals(other.unit.getClass()))
             return false;
 
-        return Math.abs(this.toBase() - other.toBase()) < EPS;
+        double base1 = unit.convertToBaseUnit(value);
+        double base2 = other.unit.convertToBaseUnit(other.value);
+
+        return Math.abs(base1 - base2) < EPS;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(Math.round(toBase() / EPS));
+        return Objects.hash(unit.convertToBaseUnit(value));
     }
 
-    // ---------------- CONVERSION ----------------
+    @Override
+    public String toString() {
+        return String.format("%.2f %s", value, unit.getUnitName());
+    }
+
+    // ================= CONVERSION =================
 
     public Quantity<U> convertTo(U targetUnit) {
+        validateCategory(targetUnit);
 
-        if (targetUnit == null)
-            throw new IllegalArgumentException("Target unit cannot be null");
-
-        if (!targetUnit.getClass().equals(unit.getClass()))
-            throw new IllegalArgumentException("Target unit must be same category");
-
-        double base = toBase();
+        double base = unit.convertToBaseUnit(value);
         double converted = targetUnit.convertFromBaseUnit(base);
 
-        return new Quantity<>(converted, targetUnit);
+        return new Quantity<>(round(converted), targetUnit);
     }
 
-    // ---------------- ADDITION ----------------
+    // ================= ARITHMETIC =================
 
     public Quantity<U> add(Quantity<U> other) {
         return add(other, this.unit);
     }
 
     public Quantity<U> add(Quantity<U> other, U targetUnit) {
-
-        validateOperation(other, targetUnit);
-
-        double resultBase = this.toBase() + other.toBase();
-        double result = targetUnit.convertFromBaseUnit(resultBase);
-
-        result = round(result);
-
-        return new Quantity<>(result, targetUnit);
+        validateOperands(other, targetUnit, true);
+        double result = performBaseArithmetic(other, Operation.ADD);
+        return buildResult(result, targetUnit);
     }
-
-    // ---------------- SUBTRACTION (UC12) ----------------
 
     public Quantity<U> subtract(Quantity<U> other) {
         return subtract(other, this.unit);
     }
 
     public Quantity<U> subtract(Quantity<U> other, U targetUnit) {
-
-        validateOperation(other, targetUnit);
-
-        double resultBase = this.toBase() - other.toBase();
-        double result = targetUnit.convertFromBaseUnit(resultBase);
-
-        result = round(result);
-
-        return new Quantity<>(result, targetUnit);
+        validateOperands(other, targetUnit, true);
+        double result = performBaseArithmetic(other, Operation.SUBTRACT);
+        return buildResult(result, targetUnit);
     }
-
-    // ---------------- DIVISION (UC12) ----------------
 
     public double divide(Quantity<U> other) {
+        validateOperands(other, null, false);
+        return performBaseArithmetic(other, Operation.DIVIDE);
+    }
+
+    // ================= CENTRALIZED VALIDATION =================
+
+    private void validateOperands(Quantity<U> other, U targetUnit, boolean requireTarget) {
 
         if (other == null)
-            throw new IllegalArgumentException("Other quantity cannot be null");
+            throw new IllegalArgumentException("Operand cannot be null");
 
-        if (this.unit.getClass() != other.unit.getClass())
-            throw new IllegalArgumentException("Cross-category division not allowed");
+        if (!unit.getClass().equals(other.unit.getClass()))
+            throw new IllegalArgumentException("Incompatible unit categories");
 
-        double divisor = other.toBase();
+        if (!Double.isFinite(value) || !Double.isFinite(other.value))
+            throw new IllegalArgumentException("Values must be finite");
 
-        if (divisor == 0)
-            throw new ArithmeticException("Division by zero");
+        if (requireTarget) {
+            if (targetUnit == null)
+                throw new IllegalArgumentException("Target unit cannot be null");
 
-        return this.toBase() / divisor;
+            validateCategory(targetUnit);
+        }
     }
 
-    // ---------------- COMMON VALIDATION ----------------
-
-    private void validateOperation(Quantity<U> other, U targetUnit) {
-
-        if (other == null)
-            throw new IllegalArgumentException("Other quantity cannot be null");
-
-        if (targetUnit == null)
-            throw new IllegalArgumentException("Target unit cannot be null");
-
-        if (this.unit.getClass() != other.unit.getClass())
-            throw new IllegalArgumentException("Cross-category operation not allowed");
+    private void validateCategory(U unitCheck) {
+        if (!unitCheck.getClass().equals(unit.getClass()))
+            throw new IllegalArgumentException("Invalid target unit category");
     }
 
-    private double round(double value) {
-        return Math.round(value * 100.0) / 100.0;
+    // ================= CORE ARITHMETIC =================
+
+    private double performBaseArithmetic(Quantity<U> other, Operation op) {
+        double base1 = unit.convertToBaseUnit(value);
+        double base2 = other.unit.convertToBaseUnit(other.value);
+        return op.compute(base1, base2);
     }
 
-    @Override
-    public String toString() {
-        return String.format("%.2f %s", value, unit);
+    private Quantity<U> buildResult(double baseValue, U targetUnit) {
+        double converted = targetUnit.convertFromBaseUnit(baseValue);
+        return new Quantity<>(round(converted), targetUnit);
+    }
+
+    private double round(double val) {
+        return Math.round(val * 100.0) / 100.0;
+    }
+
+    // ================= ENUM DISPATCH =================
+
+    private enum Operation {
+
+        ADD((a, b) -> a + b),
+
+        SUBTRACT((a, b) -> a - b),
+
+        DIVIDE((a, b) -> {
+            if (b == 0.0)
+                throw new ArithmeticException("Cannot divide by zero");
+            return a / b;
+        });
+
+        private final DoubleBinaryOperator operator;
+
+        Operation(DoubleBinaryOperator operator) {
+            this.operator = operator;
+        }
+
+        public double compute(double a, double b) {
+            return operator.applyAsDouble(a, b);
+        }
     }
 }
