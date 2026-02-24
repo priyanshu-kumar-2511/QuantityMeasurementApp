@@ -327,3 +327,47 @@ measured in feet in the Quantity Measurement Application.
 🔗 *Code Link:*  
 [Day 7 – UC12: Subtraction and Division Operations](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC12-SubtractionDivisionOperation/src)
 
+## 🗓 Day 8 – UC13: Centralized Arithmetic Logic to Enforce DRY in Quantity Operations
+*(Date: 24-Feb-2026)*
+
+- Main Flow
+  - Introduced private enum ArithmeticOperation inside Quantity.
+  - Used DoubleBinaryOperator for centralized arithmetic execution.
+  - Created performBaseArithmetic() method:
+    - Converts operands to base unit.
+    - Delegates arithmetic operation to enum.
+  - Created validateArithmeticOperands() method:
+    - Ensures operands are non-null.
+    - Ensures same unit category.
+    - Ensures finite numeric values.
+    - Validates target unit (if required).
+  - Introduced buildResult() helper:
+    - Converts base result to target unit.
+    - Applies rounding (2 decimal precision).
+  - Preserved immutability (no mutation of existing objects).
+  - No changes to public API methods:
+    - add()
+    - subtract()
+    - divide()
+    - convertTo()
+
+- Creating JUnit Test Cases :
+  - testAdd_SameUnit()
+  - testAdd_CrossUnit()
+  - testAdd_WithExplicitTargetUnit()
+  - testSubtract_SameUnit()
+  - testSubtract_CrossUnit()
+  - testSubtract_WithExplicitTargetUnit()
+  - testDivide_SameUnit()
+  - testDivide_CrossUnit()
+  - testDivide_ByZeroThrowsException()
+  - testValidation_NullOperand()
+  - testValidation_CrossCategory()
+  - testImmutability_AfterAdd()
+  - testImmutability_AfterSubtract()
+  - testImmutability_AfterDivide()
+  - testHashCodeConsistency()
+  - testBehaviorPreserved_FromUC12()
+
+🔗 *Code Link:*  
+[Day 8 – UC13: Centralized Arithmetic Logic](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC13-CentralizedArithmeticLogic/src)
