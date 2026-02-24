@@ -253,3 +253,28 @@ measured in feet in the Quantity Measurement Application.
 
 🔗 *Code Link:*  
 [Day 7 – UC10: Generic Quantity Class with IMeasurable Interface](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC10-GenericQuantity/src)
+
+## UC11: Volume Measurement Equality, Conversion, and Addition
+
+- Main Flow
+  - Introduced VolumeUnit enum implementing IMeasurable.
+  - Base unit: LITRE.
+  - Supported units: LITRE, MILLILITRE, GALLON.
+  - No modification required in generic Quantity class.
+  - Supports equality, conversion, addition.
+  - Cross-category comparison prevention maintained.
+
+- Creating JUnit test cases :
+  - testEquality_LitreToMillilitre()
+  - testEquality_LitreToGallon()
+  - testConversion_LitreToMillilitre()
+  - testConversion_LitreToGallon()
+  - testAddition_SameUnit()
+  - testAddition_CrossUnit()
+  - testVolumeVsLength_Incompatible()
+  - testVolumeVsWeight_Incompatible()
+  - testHashCodeConsistency()
+
+🔗 *Code Link:*  
+[Day 7 – UC11: Volume Measurement](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC11-VolumeMeasurement/src)
+
