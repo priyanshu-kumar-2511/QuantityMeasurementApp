@@ -1,6 +1,9 @@
 package com.quantitymeasurementapp;
 
 import org.junit.jupiter.api.Test;
+
+import com.quantitymeasurementapp.quantity.Feet;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FeetEquality {

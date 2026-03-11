@@ -1,4 +1,4 @@
-package com.quantitymeasurementapp;
+package com.quantitymeasurementapp.units;
 
 import java.util.function.Function;
 
@@ -22,9 +22,9 @@ public enum TemperatureUnit implements IMeasurable {
     private final Function<Double, Double> toCelsius;
     private final Function<Double, Double> fromCelsius;
 
-    private final SupportsArithmetic supportsArithmetic = () -> false;
+    TemperatureUnit(Function<Double, Double> toCelsius,
+                    Function<Double, Double> fromCelsius) {
 
-    TemperatureUnit(Function<Double, Double> toCelsius, Function<Double, Double> fromCelsius) {
         this.toCelsius = toCelsius;
         this.fromCelsius = fromCelsius;
     }
@@ -41,7 +41,7 @@ public enum TemperatureUnit implements IMeasurable {
 
     @Override
     public double getConversionFactor() {
-        return 1.0; 
+        return 1.0; // Not meaningful for temperature
     }
 
     @Override
@@ -49,13 +49,16 @@ public enum TemperatureUnit implements IMeasurable {
         return name();
     }
 
+    // Temperature does NOT support arithmetic
     @Override
     public boolean supportsArithmetic() {
-        return supportsArithmetic.isSupported();
+        return false;
     }
 
     @Override
     public void validateOperationSupport(String operation) {
-        throw new UnsupportedOperationException("Temperature does not support arithmetic operation: " + operation);
+        throw new UnsupportedOperationException(
+                "Temperature does not support arithmetic operation: " + operation
+        );
     }
 }

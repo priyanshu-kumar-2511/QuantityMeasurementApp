@@ -1,6 +1,10 @@
 package com.quantitymeasurementapp;
 
 import org.junit.jupiter.api.Test;
+
+import com.quantitymeasurementapp.quantity.Length;
+import com.quantitymeasurementapp.units.LengthUnit;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LengthAdditionEquality {

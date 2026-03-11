@@ -1,10 +1,10 @@
-package com.quantitymeasurementapp;
+package com.quantitymeasurementapp.quantity;
 
-public class Feet {
+public class Inches {
 
     private final double value;
 
-    public Feet(double value) {
+    public Inches(double value) {
         this.value = value;
     }
 
@@ -21,7 +21,7 @@ public class Feet {
 
         if (getClass() != obj.getClass()) return false;
 
-        Feet other = (Feet) obj;
+        Inches other = (Inches) obj;
 
         return Double.compare(this.value, other.value) == 0;
     }

@@ -1,6 +1,8 @@
-package com.quantitymeasurementapp;
+package com.quantitymeasurementapp.quantity;
 
 import java.util.Objects;
+
+import com.quantitymeasurementapp.units.LengthUnit;
 
 public final class Length {
 

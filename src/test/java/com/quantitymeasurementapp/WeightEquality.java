@@ -1,6 +1,12 @@
 package com.quantitymeasurementapp;
 
 import org.junit.jupiter.api.Test;
+
+import com.quantitymeasurementapp.quantity.Length;
+import com.quantitymeasurementapp.quantity.QuantityWeight;
+import com.quantitymeasurementapp.units.LengthUnit;
+import com.quantitymeasurementapp.units.WeightUnit;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WeightEquality {
