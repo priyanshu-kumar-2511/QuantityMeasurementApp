@@ -1,39 +1,39 @@
-package com.quantitymeasurementapp;
+package com.quantitymeasurementapp.quantity;
 
 import org.junit.jupiter.api.Test;
 
-import com.quantitymeasurementapp.quantity.Inches;
+import com.quantitymeasurementapp.quantity.Feet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class InchesEquality {
+public class FeetEquality {
 
     @Test
     void testEquality_SameValue() {
-        assertTrue(new Inches(5.0).equals(new Inches(5.0)));
+        assertTrue(new Feet(1.0).equals(new Feet(1.0)));
     }
 
     @Test
     void testEquality_DifferentValue() {
-        assertFalse(new Inches(5.0).equals(new Inches(10.0)));
+        assertFalse(new Feet(1.0).equals(new Feet(2.0)));
     }
 
     @Test
     void testEquality_NullComparison() {
-        assertFalse(new Inches(5.0).equals(null));
+        assertFalse(new Feet(1.0).equals(null));
     }
 
     @Test
     void testEquality_DifferentClass() {
-        assertFalse(new Inches(5.0).equals("5.0"));
+        assertFalse(new Feet(1.0).equals("1.0"));
     }
 
     @Test
     void testEquality_SameReference() {
-        Inches i = new Inches(5.0);
-        assertTrue(i.equals(i));
+        Feet f = new Feet(1.0);
+        assertTrue(f.equals(f));
     }
-
+    
     @Test
     void testEquality_NonNumericInput() {
         assertThrows(NumberFormatException.class, () -> {
