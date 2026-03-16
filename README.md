@@ -422,3 +422,68 @@ measured in feet in the Quantity Measurement Application.
 🔗 *Code Link:*  
 [Day 8 – UC14: Temperature Measurement](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC14-TemperatureSupport/src)
 
+
+
+## 🗓 Day 9 – UC15: N-Tier Architecture Refactoring for Quantity Measurement Application
+*(Date: 10-March-2026)*
+
+- Main Flow
+  - Refactored the monolithic Quantity Measurement Application into a **clean N-Tier architecture**.
+  - Separated the application into multiple layers to follow **Separation of Concerns (SoC)**.
+  - Introduced structured packages:
+    - controller
+    - service
+    - repository
+    - entity
+    - dto
+    - model
+    - quantity
+    - units
+    - exception
+  - Controller layer now handles **user interaction and request routing**.
+  - Service layer contains **business logic orchestration**.
+  - Repository layer handles **data access and caching logic**.
+  - Entity layer represents **persistable data structure**.
+  - DTO layer introduced for **safe data transfer between layers**.
+  - Model layer introduced for **internal business representation**.
+  - Domain logic preserved inside **quantity and units packages**.
+  - Maintained **generic Quantity<U extends IMeasurable> design**.
+  - Preserved centralized arithmetic logic introduced in UC13.
+  - Ensured **type-safe unit handling using generics**.
+  - Maintained **cross-category safety** using `unit.getClass()` checks.
+  - Preserved immutability in Quantity and domain objects.
+  - Implemented **clean dependency flow**:
+  
+- Refactored application startup:
+  - `QuantityMeasurementApp` now initializes service and controller layers.
+  - Controller invokes service to execute operations.
+- Added `QuantityMeasurementException` for **domain-specific error handling**.
+- Maintained backward compatibility with **UC1–UC14 implementations**.
+- Improved **maintainability, scalability, and modularity**.
+
+- Creating JUnit Test Cases :
+  - testGenericQuantityEquality()
+  - testGenericQuantityConversion()
+  - testGenericQuantityAddition()
+  - testGenericQuantitySubtraction()
+  - testGenericQuantityDivision()
+  - testLengthEquality_FeetToInches()
+  - testLengthConversion_InchesToFeet()
+  - testLengthAddition_WithDifferentUnits()
+  - testWeightEquality_GramToKilogram()
+  - testWeightConversion_PoundToGram()
+  - testVolumeEquality_LitreToMillilitre()
+  - testVolumeConversion_GallonToLitre()
+  - testVolumeAddition_CrossUnit()
+  - testTemperatureEquality_CelsiusToFahrenheit()
+  - testTemperatureConversion_FahrenheitToKelvin()
+  - testTemperatureUnsupportedArithmeticOperations()
+  - testCategorySafety_LengthVsWeight()
+  - testCategorySafety_LengthVsVolume()
+  - testCategorySafety_VolumeVsWeight()
+  - testControllerServiceIntegration()
+  - testRepositoryCachingBehavior()
+  - testBackwardCompatibility_UC1_UC14()
+
+🔗 *Code Link:*  
+[Day 9 – UC15: N-Tier Architecture Refactoring](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC15-N-Tier/src)
