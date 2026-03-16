@@ -422,3 +422,132 @@ measured in feet in the Quantity Measurement Application.
 🔗 *Code Link:*  
 [Day 8 – UC14: Temperature Measurement](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC14-TemperatureSupport/src)
 
+
+
+## 🗓 Day 9 – UC15: N-Tier Architecture Refactoring for Quantity Measurement Application
+*(Date: 10-March-2026)*
+
+- Main Flow
+  - Refactored the monolithic Quantity Measurement Application into a **clean N-Tier architecture**.
+  - Separated the application into multiple layers to follow **Separation of Concerns (SoC)**.
+  - Introduced structured packages:
+    - controller
+    - service
+    - repository
+    - entity
+    - dto
+    - model
+    - quantity
+    - units
+    - exception
+  - Controller layer now handles **user interaction and request routing**.
+  - Service layer contains **business logic orchestration**.
+  - Repository layer handles **data access and caching logic**.
+  - Entity layer represents **persistable data structure**.
+  - DTO layer introduced for **safe data transfer between layers**.
+  - Model layer introduced for **internal business representation**.
+  - Domain logic preserved inside **quantity and units packages**.
+  - Maintained **generic Quantity<U extends IMeasurable> design**.
+  - Preserved centralized arithmetic logic introduced in UC13.
+  - Ensured **type-safe unit handling using generics**.
+  - Maintained **cross-category safety** using `unit.getClass()` checks.
+  - Preserved immutability in Quantity and domain objects.
+  - Implemented **clean dependency flow**:
+  
+- Refactored application startup:
+  - `QuantityMeasurementApp` now initializes service and controller layers.
+  - Controller invokes service to execute operations.
+- Added `QuantityMeasurementException` for **domain-specific error handling**.
+- Maintained backward compatibility with **UC1–UC14 implementations**.
+- Improved **maintainability, scalability, and modularity**.
+
+- Creating JUnit Test Cases :
+  - testGenericQuantityEquality()
+  - testGenericQuantityConversion()
+  - testGenericQuantityAddition()
+  - testGenericQuantitySubtraction()
+  - testGenericQuantityDivision()
+  - testLengthEquality_FeetToInches()
+  - testLengthConversion_InchesToFeet()
+  - testLengthAddition_WithDifferentUnits()
+  - testWeightEquality_GramToKilogram()
+  - testWeightConversion_PoundToGram()
+  - testVolumeEquality_LitreToMillilitre()
+  - testVolumeConversion_GallonToLitre()
+  - testVolumeAddition_CrossUnit()
+  - testTemperatureEquality_CelsiusToFahrenheit()
+  - testTemperatureConversion_FahrenheitToKelvin()
+  - testTemperatureUnsupportedArithmeticOperations()
+  - testCategorySafety_LengthVsWeight()
+  - testCategorySafety_LengthVsVolume()
+  - testCategorySafety_VolumeVsWeight()
+  - testControllerServiceIntegration()
+  - testRepositoryCachingBehavior()
+  - testBackwardCompatibility_UC1_UC14()
+
+🔗 *Code Link:*  
+[Day 9 – UC15: N-Tier Architecture Refactoring](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC15-N-Tier/src)
+
+## 🗓 Day 10 – UC16: Database Integration with JDBC for Quantity Measurement Persistence
+*(Date: 14-March-2026)*
+
+- Main Flow
+  - Introduced JDBC-based database persistence for storing quantity measurement operations.
+  - Implemented QuantityMeasurementDatabaseRepository implementing IQuantityMeasurementRepository.
+  - Integrated H2 database for development and testing.
+  - Added ConnectionPool utility class for efficient database connection management.
+  - Added ApplicationConfig class to load configuration from application.properties.
+  - Enabled repository selection using configuration:
+    - repository.type=cache
+    - repository.type=database
+  - Implemented automatic database table initialization during repository startup.
+  - Implemented SQL operations:
+    - INSERT for storing measurement operations
+    - SELECT for retrieving measurement history
+    - DELETE for clearing stored records
+  - Implemented connection validation and reuse inside the connection pool.
+  - Used PreparedStatement for safe database queries and prevention of SQL injection.
+  - Added logging using Java Util Logging across:
+    - Application
+    - Controller
+    - Service
+    - Repository
+    - Utility classes
+  - Updated QuantityMeasurementApp:
+    - Reads configuration using ApplicationConfig
+    - Initializes repository, service, and controller
+    - Executes quantity operations
+    - Releases database resources on shutdown
+  - Maintained N-Tier architecture:
+    - Controller Layer
+    - Service Layer
+    - Repository Layer
+    - Utility Layer
+  - Preserved previous UC functionality:
+    - Length, Weight, Volume, Temperature measurements
+    - Arithmetic operations
+    - Unit conversions
+    - DRY principle and immutability.
+
+- Creating JUnit Test Cases :
+  - testDatabaseRepository_SaveMeasurement()
+  - testDatabaseRepository_GetAllMeasurements()
+  - testDatabaseRepository_DeleteAllMeasurements()
+  - testDatabaseRepository_ConnectionPoolInitialization()
+  - testDatabaseRepository_TableInitialization()
+  - testDatabaseRepository_StoreMultipleMeasurements()
+  - testDatabaseRepository_RetrieveMeasurementHistory()
+  - testDatabaseRepository_ConnectionReuse()
+  - testDatabaseRepository_ReleaseConnection()
+  - testDatabaseRepository_InvalidConnectionHandling()
+  - testApplicationConfig_LoadConfiguration()
+  - testApplicationConfig_DefaultConfiguration()
+  - testRepositorySwitch_CacheToDatabase()
+  - testServiceLayer_DatabasePersistence()
+  - testControllerIntegration_WithDatabaseRepository()
+  - testBackwardCompatibility_UC1_UC15()
+
+🔗 *Code Link:*  
+[Day 10 – UC16: JDBC Database Integration](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC16-Database-Integration-with-JDBC/src)
+
+
