@@ -1,1 +1,598 @@
 # QuantityMeasurementApp
+
+## 🗓 Day 1 – UC1: Feet measurement equality
+*(Date: 17-Feb-2026)*
+
+- Creating Feet class which is responsible for checking the equality of two numerical values
+measured in feet in the Quantity Measurement Application.
+- Creating JUnit test cases : 
+  - testEquality_SameValue()
+  - testEquality_DifferentValue()
+  - testEquality_NullComparison()
+  - testEquality_NonNumericInput()
+  - testEquality_SameReference()
+
+🔗 *Code Link:*  
+[Day 1 – UC1: Feet measurement equality](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC1-FeetEquality/src)
+
+## 🗓 Day 2 – UC2: Feet and Inches measurement equality
+*(Date: 18-Feb-2026)*
+
+- Creating Inches class which is responsible for checking the equality of two numerical values
+measured in feet in the Quantity Measurement Application.
+- Creating JUnit test cases : 
+  - testEquality_SameValue()
+  - testEquality_DifferentValue()
+  - testEquality_NullComparison()
+  - testEquality_NonNumericInput()
+  - testEquality_SameReference()
+
+🔗 *Code Link:*  
+[Day 2 – UC2: Feet and Inches measurement equality](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC2-InchEquality/src)
+
+## 🗓 Day 3 – UC3: Generic Quantity Class equality
+*(Date: 19-Feb-2026)*
+
+- Main Flow
+  - User inputs two numerical values with their respective unit types.
+  - The Quantity Length class validates the input values to ensure they are numeric.
+  - The Quantity Length class validates the unit type against supported units.
+  - Both values are converted to a common base unit (e.g., feet) using conversion factors.
+  - The converted values are compared for equality.
+  - The result of the comparison is returned to the user.
+- Creating JUnit test cases : 
+  - testEquality_FeetToFeet_SameValue()
+  - testEquality_InchToInch_SameValue()
+  - testEquality_NullComparison()
+  - testEquality_InchToFeet_EquivalentValue()
+  - testEquality_FeetToFeet_DifferentValue()
+  - testEquality_InchToInch_DifferentValue()
+
+🔗 *Code Link:*  
+[Day 3 – UC2: Feet and Inches measurement equality](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC3-GenericLength/src)
+
+## 🗓 Day 4 – UC4: Extended Unit Support
+*(Date: 20-Feb-2026)*
+
+- Main Flow
+  - Users input two numerical values with their respective unit types (feet, inches, yards or cms).
+  - The Quantity Length class validates the input values to ensure they are numeric.
+  - The QuantityLength class validates the unit type against supported units (feet, inches, yards, cms).
+  - Both values are converted to a common base unit (in or feet) using conversion factors.
+  - The converted values are compared for equality.
+  - The result of the comparison is returned to the user.
+- Creating JUnit test cases : 
+  - testEquality_YardToYard_SameValue()
+  - testEquality_YardToYard_DifferentValue()
+  - testEquality_YardToFeet_EquivalentValue()
+  - testEquality_FeetToYard_EquivalentValue()
+  - testEquality_YardToInches_EquivalentValue()
+  - testEquality_InchesToYard_EquivalentValue()
+
+🔗 *Code Link:*  
+[Day 4 – UC4: Extended Unit Support](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC4-YardEquality/src)
+
+## 🗓 Day 5 – UC5: Unit-to-Unit Conversion
+*(Date: 21-Feb-2026)*
+
+- Main Flow
+  - Client calls Quantity Length.convert(value, sourceUnit, targetUnit) or uses an instance method to request conversion.
+  - The method validates:
+    - value is a finite number (Double.isFinite or equivalent).
+    - sourceUnit and targetUnit are non-null and members of LengthUnit.
+  - Convert the input value to the common base unit (e.g., feet) using sourceUnit.getConversionFactor().
+  - Convert from the base unit to the target unit by dividing by targetUnit.getConversionFactor() (or multiplying by appropriate reciprocal).
+  - Apply optional rounding or precision handling (caller-specified or a default epsilon).
+  - Return the converted numeric value to the caller.
+
+- Creating JUnit test cases : 
+  - testConversion_FeetToInches()
+  - testConversion_InchesToFeet()
+  - testConversion_YardsToInches()
+  - testConversion_InchesToYards()
+  - testConversion_CentimetersToInches() 
+  - testConversion_FeatToYard()
+  - testConversion_RoundTrip_PreservesValue()
+  - testConversion_ZeroValue()
+
+🔗 *Code Link:*  
+[Day 5 – UC5: Unit-to-Unit Conversion](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC5-UnitConversion/src)
+
+## 🗓 Day 6 – UC6: Addition of Two Length Units
+*(Date: 22-Feb-2026)*
+
+- Main Flow
+  - Client calls Quantity Length.add(length1, length2, targetUnit) or uses an instance method to add two length measurements.
+  - The method validates:
+    - Both length1 and length2 are non-null and have valid LengthUnits.
+    - All values are finite numbers (Double.isFinite or equivalent).
+  - Convert both length1 and length2 to a common base unit (feet).
+  - Add the converted values.
+  - Return a new Quantity Length object (or numeric value) representing the result in the unit of first operand.
+
+- Creating JUnit test cases : 
+  - testAddition_SameUnit_FeetPlusFeet()
+  - testAddition_SameUnit_InchPlusInch()
+  - testAddition_CrossUnit_FeetPlusInches()
+  - testAddition_CrossUnit_InchPlusFeet()
+  - testAddition_CrossUnit_YardPlusFeet() 
+  - testAddition_CrossUnit_CentimeterPlusInch()
+  - testAddition_Commutativity()
+  - testAddition_WithZero()
+  - testAddition_NegativeValues()
+  - testAddition_NullSecondOperand()
+
+🔗 *Code Link:*  
+[Day 6 – UC6: Addition of Two Length Units](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC6-UnitAddition/src)
+
+## UC7: Addition with Target Unit
+
+- Main Flow
+  - Client calls Quantity Length.add(length1, length2, targetUnit) with an explicit target unit parameter.
+  - The method validates:
+    - Both length1 and length2 are non-null and have valid LengthUnits.
+    - targetUnit is non-null and a valid LengthUnit.
+    - All values are finite numbers (Double.isFinite or equivalent).
+  - Convert both length1 and length2 to a common base unit (feet).
+  - Add the converted values.
+  - Convert the sum from the base unit to the explicitly specified targetUnit.
+  - Return a new Quantity Length object representing the result in the target unit.
+
+- Creating JUnit test cases : 
+  - testAddition_ExplicitTargetUnit_Feet()
+  - testAddition_ExplicitTargetUnit_Inches() 
+  - testAddition_ExplicitTargetUnit_Yards()
+  - testAddition_ExplicitTargetUnit_Centimeters() 
+  - testAddition_ExplicitTargetUnit_SameAsFirstOperand() 
+  - testAddition_ExplicitTargetUnit_SameAsSecondOperand()
+  - testAddition_ExplicitTargetUnit_Commutativity()
+  - testAddition_ExplicitTargetUnit_WithZero() 
+  - testAddition_ExplicitTargetUnit_NegativeValues()
+  - testAddition_ExplicitTargetUnit_NullTargetUnit()
+
+🔗 *Code Link:*  
+[Day 6 – UC7: Addition with Target Unit](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC7-TargetUnitAddition/src)
+
+## UC8: Refactoring Unit Enum to Standalone with Conversion Responsibility
+
+- Main Flow
+  - Enum Refactoring:
+    - Move LengthUnit from inside QuantityLength to a standalone top-level class.
+    - Add conversion responsibility to LengthUnit: methods to convert from base unit and to base unit.
+  - Unit Conversion Logic:
+    - Implement convertToBaseUnit(double value) method in LengthUnit to convert a value in this unit to feet (base unit).
+    - Implement convertFromBaseUnit(double baseValue) method in LengthUnit to convert a base unit value (feet) to this unit.
+  - QuantityLength Simplification:
+    - Remove internal conversion logic from QuantityLength.
+    - Delegate all conversion operations to the unit's conversion methods.
+    - QuantityLength now focuses solely on value comparison and arithmetic logic.
+  - Backward Compatibility:
+    - All existing test cases from UC1–UC7 pass without modification.
+    - Client code continues to work with the same public API.
+  - Scalability Pattern:
+    - The refactored design establishes a pattern for future measurement categories.
+    - New units (WeightUnit, VolumeUnit, TemperatureUnit) can follow the same extraction and responsibility pattern.
+
+- Creating JUnit test cases : 
+  - testLengthUnitEnum_FeetConstant() 
+  - testLengthUnitEnum_InchesConstant() 
+  - testLengthUnitEnum_YardsConstant()
+  - testLengthUnitEnum_CentimetersConstant() 
+  - testConvertToBaseUnit_FeetToFeet()
+  - testConvertToBaseUnit_InchesToFeet() 
+  - testConvertToBaseUnit_YardsToFeet()
+  - testConvertToBaseUnit_CentimetersToFeet() 
+  - testConvertFromBaseUnit_FeetToFeet()
+  - testConvertFromBaseUnit_FeetToInches() 
+
+🔗 *Code Link:*  
+[Day 6 – UC8: Refactoring Unit Enum to Standalone with Conversion Responsibility](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC8-StandaloneUnit/src)
+
+## UC9: Weight Measurement Equality, Conversion, and Addition (Kilogram, Gram, Pound)
+
+- Main Flow
+  - Equality Comparison:
+    - User inputs two numerical values with their respective weight unit types.
+    - QuantityWeight class validates the input values to ensure they are numeric and units are valid.
+    - Both values are converted to the common base unit (kilogram) using WeightUnit conversion methods.
+    - The converted values are compared for equality using the overridden equals() method.
+    - The result of the comparison (true or false) is returned.
+  - Unit Conversion:
+    - User inputs a numerical value, source unit, and target unit.
+    - QuantityWeight.convertTo(targetUnit) converts the measurement to the target unit.
+    - The method normalizes through the base unit (kilogram) and applies appropriate conversion factors.
+    - A new QuantityWeight object is returned with the converted value and target unit.
+  - Addition Operations:
+    - User inputs two QuantityWeight objects and optionally a target unit.
+    - Both measurements are converted to the base unit (kilogram).
+    - The converted values are summed.
+    - The result is converted to the target unit (either first operand's unit or explicitly specified unit).
+    - A new QuantityWeight object representing the sum is returned.
+
+
+- Creating JUnit test cases : 
+  - testEquality_KilogramToKilogram_SameValue()
+  - testEquality_KilogramToKilogram_DifferentValue() 
+  - testEquality_KilogramToGram_EquivalentValue() 
+  - testEquality_GramToKilogram_EquivalentValue() 
+  - testEquality_WeightVsLength_Incompatible()
+  - testEquality_NullComparison() 
+  - testEquality_SameReference()
+  - testEquality_NullUnit() 
+  - testEquality_TransitiveProperty()
+  - testEquality_ZeroValue()  
+
+🔗 *Code Link:*  
+[Day 6 – UC9: Weight Measurement Equality](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC9-WeightMeasurement/src)
+
+## 🗓 Day 7 – UC10: Generic Quantity Class with IMeasurable Interface
+*(Date: 23-Feb-2026)*
+
+- Main Flow
+  - Introduced Measurable interface.
+  - Refactored LengthUnit and WeightUnit to implement interface.
+  - Created generic class Quantity<U extends IMeasurable>.
+  - Removed duplicate Quantity classes.
+  - Prevented cross-category comparison using unit.getClass().
+  - Used Double.compare() for equality.
+  - Rounded conversion results to 2 decimal places.
+  - Simplified QuantityMeasurementApp using generic methods.
+  - Restored DRY and SRP principles.
+
+- Creating JUnit test cases :
+  - testIMeasurableInterface_LengthUnitImplementation()
+  - testIMeasurableInterface_WeightUnitImplementation()
+  - testGenericQuantity_LengthOperations_Equality()
+  - testGenericQuantity_WeightOperations_Equality()
+  - testGenericQuantity_LengthOperations_Conversion()
+  - testGenericQuantity_WeightOperations_Addition()
+  - testCrossCategoryPrevention_LengthVsWeight()
+  - testGenericQuantity_ConstructorValidation_NullUnit()
+  - testGenericQuantity_ConstructorValidation_InvalidValue()
+  - testHashCode_GenericQuantity_Consistency()
+
+🔗 *Code Link:*  
+[Day 7 – UC10: Generic Quantity Class with IMeasurable Interface](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC10-GenericQuantity/src)
+
+## UC11: Volume Measurement Equality, Conversion, and Addition
+
+- Main Flow
+  - Introduced VolumeUnit enum implementing IMeasurable.
+  - Base unit: LITRE.
+  - Supported units: LITRE, MILLILITRE, GALLON.
+  - No modification required in generic Quantity class.
+  - Supports equality, conversion, addition.
+  - Cross-category comparison prevention maintained.
+
+- Creating JUnit test cases :
+  - testEquality_LitreToMillilitre()
+  - testEquality_LitreToGallon()
+  - testConversion_LitreToMillilitre()
+  - testConversion_LitreToGallon()
+  - testAddition_SameUnit()
+  - testAddition_CrossUnit()
+  - testVolumeVsLength_Incompatible()
+  - testVolumeVsWeight_Incompatible()
+  - testHashCodeConsistency()
+
+🔗 *Code Link:*  
+[Day 7 – UC11: Volume Measurement](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC11-VolumeMeasurement/src)
+
+## UC12: Subtraction and Division Operations on Quantity Measurements
+
+- Main Flow (Subtraction)
+  - Client calls Quantity.subtract(quantity1, quantity2) 
+    or Quantity.subtract(quantity1, quantity2, targetUnit).
+  - The method validates:
+    - Both operands are non-null.
+    - Units belong to the same measurement category (Length, Weight, Volume).
+    - Values are finite numbers (Double.isFinite).
+    - targetUnit is non-null for explicit subtraction.
+  - Both operands are converted to a common base unit using convertToBaseUnit().
+  - Subtraction is performed on base values.
+  - The result is converted back to the target unit 
+    (implicit: first operand’s unit, or explicit targetUnit).
+  - The result is rounded to two decimal places.
+  - A new Quantity object is returned (immutability preserved).
+
+- Main Flow (Division)
+  - Client calls Quantity.divide(quantity1, quantity2).
+  - The method validates:
+    - Operand is non-null.
+    - Units belong to same category.
+    - Values are finite.
+    - Divisor is not zero.
+  - Both operands are converted to base unit.
+  - Division is performed on base values.
+  - Returns a dimensionless double value (no rounding applied).
+
+- Creating JUnit test cases :
+  - testSubtract_SameUnit()
+  - testSubtract_CrossUnit()
+  - testSubtract_WithExplicitTargetUnit()
+  - testSubtract_NonCommutativeBehavior()
+  - testSubtract_WithZero()
+  - testSubtract_NegativeResult()
+  - testSubtract_NullOperand()
+  - testDivide_SameUnit()
+  - testDivide_CrossUnit()
+  - testDivide_ReturnsScalar()
+  - testDivide_ByZeroThrowsException()
+  - testDivide_NullOperand()
+  - testCrossCategory_SubtractRejected()
+  - testCrossCategory_DivideRejected()
+  - testImmutability_AfterSubtract()
+  - testImmutability_AfterDivide()
+
+🔗 *Code Link:*  
+[Day 7 – UC12: Subtraction and Division Operations](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC12-SubtractionDivisionOperation/src)
+
+## 🗓 Day 8 – UC13: Centralized Arithmetic Logic to Enforce DRY in Quantity Operations
+*(Date: 24-Feb-2026)*
+
+- Main Flow
+  - Introduced private enum ArithmeticOperation inside Quantity.
+  - Used DoubleBinaryOperator for centralized arithmetic execution.
+  - Created performBaseArithmetic() method:
+    - Converts operands to base unit.
+    - Delegates arithmetic operation to enum.
+  - Created validateArithmeticOperands() method:
+    - Ensures operands are non-null.
+    - Ensures same unit category.
+    - Ensures finite numeric values.
+    - Validates target unit (if required).
+  - Introduced buildResult() helper:
+    - Converts base result to target unit.
+    - Applies rounding (2 decimal precision).
+  - Preserved immutability (no mutation of existing objects).
+  - No changes to public API methods:
+    - add()
+    - subtract()
+    - divide()
+    - convertTo()
+
+- Creating JUnit Test Cases :
+  - testAdd_SameUnit()
+  - testAdd_CrossUnit()
+  - testAdd_WithExplicitTargetUnit()
+  - testSubtract_SameUnit()
+  - testSubtract_CrossUnit()
+  - testSubtract_WithExplicitTargetUnit()
+  - testDivide_SameUnit()
+  - testDivide_CrossUnit()
+  - testDivide_ByZeroThrowsException()
+  - testValidation_NullOperand()
+  - testValidation_CrossCategory()
+  - testImmutability_AfterAdd()
+  - testImmutability_AfterSubtract()
+  - testImmutability_AfterDivide()
+  - testHashCodeConsistency()
+  - testBehaviorPreserved_FromUC12()
+
+🔗 *Code Link:*  
+[Day 8 – UC13: Centralized Arithmetic Logic](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC13-CentralizedArithmeticLogic/src)
+
+## UC14: Temperature Measurement with Selective Arithmetic Support
+
+- Main Flow
+  - Introduced new enum TemperatureUnit implementing IMeasurable.
+  - Added units:
+    - CELSIUS (Base Unit)
+    - FAHRENHEIT
+    - KELVIN
+  - Implemented non-linear conversion logic using formulas:
+    - °F = (°C × 9/5) + 32
+    - °C = (°F − 32) × 5/9
+    - K = °C + 273.15
+    - °C = K − 273.15
+  - Refactored IMeasurable interface:
+    - Added default method supportsArithmetic()
+    - Added default method validateOperationSupport(String operation)
+  - TemperatureUnit overrides:
+    - supportsArithmetic() → returns false
+    - validateOperationSupport() → throws UnsupportedOperationException
+  - Updated Quantity class:
+    - Arithmetic methods now call unit.validateOperationSupport(operationName)
+    - Prevents unsupported operations before execution
+  - Preserved centralized arithmetic logic from UC13.
+  - Equality and conversion work normally for temperature.
+  - Cross-category comparison prevented using unit.getClass().
+  - Maintained immutability and DRY principle.
+  - No changes required in existing Length, Weight, Volume implementations.
+
+- Creating JUnit Test Cases :
+  - testTemperatureEquality_CelsiusToCelsius_SameValue()
+  - testTemperatureEquality_CelsiusToFahrenheit_0Equals32()
+  - testTemperatureEquality_CelsiusToKelvin_0Equals273()
+  - testTemperatureConversion_CelsiusToFahrenheit()
+  - testTemperatureConversion_FahrenheitToCelsius()
+  - testTemperatureConversion_CelsiusToKelvin()
+  - testTemperatureConversion_RoundTrip()
+  - testTemperatureConversion_NegativeValues()
+  - testTemperatureConversion_AbsoluteZero()
+  - testTemperatureUnsupportedOperation_Add()
+  - testTemperatureUnsupportedOperation_Subtract()
+  - testTemperatureUnsupportedOperation_Divide()
+  - testTemperatureVsLengthIncompatibility()
+  - testTemperatureVsWeightIncompatibility()
+  - testTemperatureVsVolumeIncompatibility()
+  - testOperationSupportMethods_TemperatureUnit()
+  - testBackwardCompatibility_UC1_UC13()
+
+🔗 *Code Link:*  
+[Day 8 – UC14: Temperature Measurement](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC14-TemperatureSupport/src)
+
+
+
+## 🗓 Day 9 – UC15: N-Tier Architecture Refactoring for Quantity Measurement Application
+*(Date: 10-March-2026)*
+
+- Main Flow
+  - Refactored the monolithic Quantity Measurement Application into a **clean N-Tier architecture**.
+  - Separated the application into multiple layers to follow **Separation of Concerns (SoC)**.
+  - Introduced structured packages:
+    - controller
+    - service
+    - repository
+    - entity
+    - dto
+    - model
+    - quantity
+    - units
+    - exception
+  - Controller layer now handles **user interaction and request routing**.
+  - Service layer contains **business logic orchestration**.
+  - Repository layer handles **data access and caching logic**.
+  - Entity layer represents **persistable data structure**.
+  - DTO layer introduced for **safe data transfer between layers**.
+  - Model layer introduced for **internal business representation**.
+  - Domain logic preserved inside **quantity and units packages**.
+  - Maintained **generic Quantity<U extends IMeasurable> design**.
+  - Preserved centralized arithmetic logic introduced in UC13.
+  - Ensured **type-safe unit handling using generics**.
+  - Maintained **cross-category safety** using `unit.getClass()` checks.
+  - Preserved immutability in Quantity and domain objects.
+  - Implemented **clean dependency flow**:
+  
+- Refactored application startup:
+  - `QuantityMeasurementApp` now initializes service and controller layers.
+  - Controller invokes service to execute operations.
+- Added `QuantityMeasurementException` for **domain-specific error handling**.
+- Maintained backward compatibility with **UC1–UC14 implementations**.
+- Improved **maintainability, scalability, and modularity**.
+
+- Creating JUnit Test Cases :
+  - testGenericQuantityEquality()
+  - testGenericQuantityConversion()
+  - testGenericQuantityAddition()
+  - testGenericQuantitySubtraction()
+  - testGenericQuantityDivision()
+  - testLengthEquality_FeetToInches()
+  - testLengthConversion_InchesToFeet()
+  - testLengthAddition_WithDifferentUnits()
+  - testWeightEquality_GramToKilogram()
+  - testWeightConversion_PoundToGram()
+  - testVolumeEquality_LitreToMillilitre()
+  - testVolumeConversion_GallonToLitre()
+  - testVolumeAddition_CrossUnit()
+  - testTemperatureEquality_CelsiusToFahrenheit()
+  - testTemperatureConversion_FahrenheitToKelvin()
+  - testTemperatureUnsupportedArithmeticOperations()
+  - testCategorySafety_LengthVsWeight()
+  - testCategorySafety_LengthVsVolume()
+  - testCategorySafety_VolumeVsWeight()
+  - testControllerServiceIntegration()
+  - testRepositoryCachingBehavior()
+  - testBackwardCompatibility_UC1_UC14()
+
+🔗 *Code Link:*  
+[Day 9 – UC15: N-Tier Architecture Refactoring](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC15-N-Tier/src)
+
+## 🗓 Day 10 – UC16: Database Integration with JDBC for Quantity Measurement Persistence
+*(Date: 14-March-2026)*
+
+- Main Flow
+  - Introduced JDBC-based database persistence for storing quantity measurement operations.
+  - Implemented QuantityMeasurementDatabaseRepository implementing IQuantityMeasurementRepository.
+  - Integrated H2 database for development and testing.
+  - Added ConnectionPool utility class for efficient database connection management.
+  - Added ApplicationConfig class to load configuration from application.properties.
+  - Enabled repository selection using configuration:
+    - repository.type=cache
+    - repository.type=database
+  - Implemented automatic database table initialization during repository startup.
+  - Implemented SQL operations:
+    - INSERT for storing measurement operations
+    - SELECT for retrieving measurement history
+    - DELETE for clearing stored records
+  - Implemented connection validation and reuse inside the connection pool.
+  - Used PreparedStatement for safe database queries and prevention of SQL injection.
+  - Added logging using Java Util Logging across:
+    - Application
+    - Controller
+    - Service
+    - Repository
+    - Utility classes
+  - Updated QuantityMeasurementApp:
+    - Reads configuration using ApplicationConfig
+    - Initializes repository, service, and controller
+    - Executes quantity operations
+    - Releases database resources on shutdown
+  - Maintained N-Tier architecture:
+    - Controller Layer
+    - Service Layer
+    - Repository Layer
+    - Utility Layer
+  - Preserved previous UC functionality:
+    - Length, Weight, Volume, Temperature measurements
+    - Arithmetic operations
+    - Unit conversions
+    - DRY principle and immutability.
+
+- Creating JUnit Test Cases :
+  - testDatabaseRepository_SaveMeasurement()
+  - testDatabaseRepository_GetAllMeasurements()
+  - testDatabaseRepository_DeleteAllMeasurements()
+  - testDatabaseRepository_ConnectionPoolInitialization()
+  - testDatabaseRepository_TableInitialization()
+  - testDatabaseRepository_StoreMultipleMeasurements()
+  - testDatabaseRepository_RetrieveMeasurementHistory()
+  - testDatabaseRepository_ConnectionReuse()
+  - testDatabaseRepository_ReleaseConnection()
+  - testDatabaseRepository_InvalidConnectionHandling()
+  - testApplicationConfig_LoadConfiguration()
+  - testApplicationConfig_DefaultConfiguration()
+  - testRepositorySwitch_CacheToDatabase()
+  - testServiceLayer_DatabasePersistence()
+  - testControllerIntegration_WithDatabaseRepository()
+  - testBackwardCompatibility_UC1_UC15()
+
+🔗 *Code Link:*  
+[Day 10 – UC16: JDBC Database Integration](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC16-Database-Integration-with-JDBC/src)
+
+## 🗓 Day 11 – UC17: Spring Boot Integration (REST + JPA)
+*(Date: 18-March-2026)*
+
+- Migrated Quantity Measurement App to Spring Boot.
+- Replaced JDBC with Spring Data JPA.
+- Exposed functionality using REST APIs.
+- Used H2 database for development.
+
+---
+
+### 🔹 Architecture
+
+Client → Controller → Service → Repository → Entity → Database
+
+---
+
+### 🔹 Key Features
+
+- Spring Boot auto configuration  
+- REST APIs (@RestController)  
+- JPA (no manual SQL)  
+- Dependency Injection (@Autowired)  
+- Validation (@Valid)  
+- Global Exception Handling (@ControllerAdvice)  
+- Testing using MockMvc  
+
+---
+
+### 🔹 Flow
+
+- Client sends request  
+- Controller handles request  
+- Service processes logic  
+- Repository interacts with DB  
+- Response returned as JSON  
+
+---
+
+### 🔹 Run Application
+
+```bash
+mvn clean install
+mvn spring-boot:run
+
+🔗 *Code Link:*  
+[Day 11 – UC17: Spring Boot Integration (REST + JPA)](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC17-Spring-Backend/src)
