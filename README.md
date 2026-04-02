@@ -18,7 +18,7 @@ measured in feet in the Quantity Measurement Application.
 ## 🗓 Day 2 – UC2: Feet and Inches measurement equality
 *(Date: 18-Feb-2026)*
 
-- Creating Inchs class which is responsible for checking the equality of two numerical values
+- Creating Inches class which is responsible for checking the equality of two numerical values
 measured in feet in the Quantity Measurement Application.
 - Creating JUnit test cases : 
   - testEquality_SameValue()
@@ -103,12 +103,10 @@ measured in feet in the Quantity Measurement Application.
 
 - Main Flow
   - Client calls Quantity Length.add(length1, length2, targetUnit) or uses an instance method to add two length measurements.
-
   - The method validates:
     - Both length1 and length2 are non-null and have valid LengthUnits.
     - All values are finite numbers (Double.isFinite or equivalent).
   - Convert both length1 and length2 to a common base unit (feet).
-  - Add the converted values.
   - Add the converted values.
   - Return a new Quantity Length object (or numeric value) representing the result in the unit of first operand.
 
@@ -423,3 +421,350 @@ measured in feet in the Quantity Measurement Application.
 
 🔗 *Code Link:*  
 [Day 8 – UC14: Temperature Measurement](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC14-TemperatureSupport/src)
+
+
+
+## 🗓 Day 9 – UC15: N-Tier Architecture Refactoring for Quantity Measurement Application
+*(Date: 10-March-2026)*
+
+- Main Flow
+  - Refactored the monolithic Quantity Measurement Application into a **clean N-Tier architecture**.
+  - Separated the application into multiple layers to follow **Separation of Concerns (SoC)**.
+  - Introduced structured packages:
+    - controller
+    - service
+    - repository
+    - entity
+    - dto
+    - model
+    - quantity
+    - units
+    - exception
+  - Controller layer now handles **user interaction and request routing**.
+  - Service layer contains **business logic orchestration**.
+  - Repository layer handles **data access and caching logic**.
+  - Entity layer represents **persistable data structure**.
+  - DTO layer introduced for **safe data transfer between layers**.
+  - Model layer introduced for **internal business representation**.
+  - Domain logic preserved inside **quantity and units packages**.
+  - Maintained **generic Quantity<U extends IMeasurable> design**.
+  - Preserved centralized arithmetic logic introduced in UC13.
+  - Ensured **type-safe unit handling using generics**.
+  - Maintained **cross-category safety** using `unit.getClass()` checks.
+  - Preserved immutability in Quantity and domain objects.
+  - Implemented **clean dependency flow**:
+  
+- Refactored application startup:
+  - `QuantityMeasurementApp` now initializes service and controller layers.
+  - Controller invokes service to execute operations.
+- Added `QuantityMeasurementException` for **domain-specific error handling**.
+- Maintained backward compatibility with **UC1–UC14 implementations**.
+- Improved **maintainability, scalability, and modularity**.
+
+- Creating JUnit Test Cases :
+  - testGenericQuantityEquality()
+  - testGenericQuantityConversion()
+  - testGenericQuantityAddition()
+  - testGenericQuantitySubtraction()
+  - testGenericQuantityDivision()
+  - testLengthEquality_FeetToInches()
+  - testLengthConversion_InchesToFeet()
+  - testLengthAddition_WithDifferentUnits()
+  - testWeightEquality_GramToKilogram()
+  - testWeightConversion_PoundToGram()
+  - testVolumeEquality_LitreToMillilitre()
+  - testVolumeConversion_GallonToLitre()
+  - testVolumeAddition_CrossUnit()
+  - testTemperatureEquality_CelsiusToFahrenheit()
+  - testTemperatureConversion_FahrenheitToKelvin()
+  - testTemperatureUnsupportedArithmeticOperations()
+  - testCategorySafety_LengthVsWeight()
+  - testCategorySafety_LengthVsVolume()
+  - testCategorySafety_VolumeVsWeight()
+  - testControllerServiceIntegration()
+  - testRepositoryCachingBehavior()
+  - testBackwardCompatibility_UC1_UC14()
+
+🔗 *Code Link:*  
+[Day 9 – UC15: N-Tier Architecture Refactoring](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC15-N-Tier/src)
+
+## 🗓 Day 10 – UC16: Database Integration with JDBC for Quantity Measurement Persistence
+*(Date: 14-March-2026)*
+
+- Main Flow
+  - Introduced JDBC-based database persistence for storing quantity measurement operations.
+  - Implemented QuantityMeasurementDatabaseRepository implementing IQuantityMeasurementRepository.
+  - Integrated H2 database for development and testing.
+  - Added ConnectionPool utility class for efficient database connection management.
+  - Added ApplicationConfig class to load configuration from application.properties.
+  - Enabled repository selection using configuration:
+    - repository.type=cache
+    - repository.type=database
+  - Implemented automatic database table initialization during repository startup.
+  - Implemented SQL operations:
+    - INSERT for storing measurement operations
+    - SELECT for retrieving measurement history
+    - DELETE for clearing stored records
+  - Implemented connection validation and reuse inside the connection pool.
+  - Used PreparedStatement for safe database queries and prevention of SQL injection.
+  - Added logging using Java Util Logging across:
+    - Application
+    - Controller
+    - Service
+    - Repository
+    - Utility classes
+  - Updated QuantityMeasurementApp:
+    - Reads configuration using ApplicationConfig
+    - Initializes repository, service, and controller
+    - Executes quantity operations
+    - Releases database resources on shutdown
+  - Maintained N-Tier architecture:
+    - Controller Layer
+    - Service Layer
+    - Repository Layer
+    - Utility Layer
+  - Preserved previous UC functionality:
+    - Length, Weight, Volume, Temperature measurements
+    - Arithmetic operations
+    - Unit conversions
+    - DRY principle and immutability.
+
+- Creating JUnit Test Cases :
+  - testDatabaseRepository_SaveMeasurement()
+  - testDatabaseRepository_GetAllMeasurements()
+  - testDatabaseRepository_DeleteAllMeasurements()
+  - testDatabaseRepository_ConnectionPoolInitialization()
+  - testDatabaseRepository_TableInitialization()
+  - testDatabaseRepository_StoreMultipleMeasurements()
+  - testDatabaseRepository_RetrieveMeasurementHistory()
+  - testDatabaseRepository_ConnectionReuse()
+  - testDatabaseRepository_ReleaseConnection()
+  - testDatabaseRepository_InvalidConnectionHandling()
+  - testApplicationConfig_LoadConfiguration()
+  - testApplicationConfig_DefaultConfiguration()
+  - testRepositorySwitch_CacheToDatabase()
+  - testServiceLayer_DatabasePersistence()
+  - testControllerIntegration_WithDatabaseRepository()
+  - testBackwardCompatibility_UC1_UC15()
+
+🔗 *Code Link:*  
+[Day 10 – UC16: JDBC Database Integration](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC16-Database-Integration-with-JDBC/src)
+
+## 🗓 Day 11 – UC17: Spring Boot Integration (REST + JPA)
+*(Date: 18-March-2026)*
+
+- Migrated Quantity Measurement App to Spring Boot.
+- Replaced JDBC with Spring Data JPA.
+- Exposed functionality using REST APIs.
+- Used H2 database for development.
+
+---
+
+### 🔹 Architecture
+
+Client → Controller → Service → Repository → Entity → Database
+
+---
+
+### 🔹 Key Features
+
+- Spring Boot auto configuration  
+- REST APIs (@RestController)  
+- JPA (no manual SQL)  
+- Dependency Injection (@Autowired)  
+- Validation (@Valid)  
+- Global Exception Handling (@ControllerAdvice)  
+- Testing using MockMvc  
+
+---
+
+### 🔹 Flow
+
+- Client sends request  
+- Controller handles request  
+- Service processes logic  
+- Repository interacts with DB  
+- Response returned as JSON  
+
+---
+
+### 🔹 Run Application
+
+```bash
+mvn clean install
+mvn spring-boot:run
+
+🔗 *Code Link:*  
+[Day 11 – UC17: Spring Boot Integration (REST + JPA)](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC17-Spring-Backend/src)
+
+
+## 🗓 Day 12 - UC18: Google Authentication and User Management
+*(Date: 24-March-2026)*
+
+## Description
+UC18 implements comprehensive **OAuth2 authentication with Google** and advanced **user management** features.  
+The system supports both local email/password authentication and Google OAuth2, with seamless user registration and profile management.
+
+## Objective
+Provide secure, scalable authentication with Google OAuth2 integration and complete user lifecycle management.
+
+## Key Features
+- **Dual Authentication**: Local (email/password) + Google OAuth2
+- **Automatic User Registration**: First-time Google users auto-created
+- **Profile Management**: User details, profile pictures, email verification
+- **Session Management**: JWT tokens with refresh token rotation
+- **Security**: Password strength validation, email OTP for password reset
+- **Audit Trail**: Track authentication events and user activities
+
+## Authentication Flow
+
+### Local Authentication
+1. **Registration**: User provides email, password, name, mobile
+2. **Validation**: Strong password requirements enforced
+3. **Storage**: Password BCrypt hashed, email marked unverified
+4. **Welcome Email**: Sent asynchronously after registration
+5. **Login**: Email/password validation, JWT generation
+6. **Session**: Access token (10 days) + Refresh token (30 days)
+
+### Google OAuth2 Authentication
+1. **Redirect**: User redirected to Google OAuth2 consent screen
+2. **Authorization**: Google authenticates user and returns authorization code
+3. **Token Exchange**: Backend exchanges code for access/id tokens
+4. **User Lookup**: Find existing user by Google provider ID
+5. **Auto Registration**: Create new user if not found
+6. **JWT Generation**: Generate access and refresh tokens
+7. **Frontend Redirect**: Redirect to frontend with JWT
+
+### Password Reset Flow
+1. **Request**: User provides email address
+2. **Validation**: Check email exists and is verified
+3. **OTP Generation**: 6-digit OTP with 15-minute expiry
+4. **Email Delivery**: Send OTP to user's email
+5. **Verification**: User provides OTP and new password
+6. **Update**: Validate OTP, update password, invalidate sessions
+
+## User Management Features
+
+### Profile Management
+- **Personal Information**: First name, last name, email, mobile
+- **Profile Picture**: URL from OAuth2 provider or custom
+- **Email Verification**: Track verification status
+- **Authentication Provider**: Track local vs Google authentication
+- **Provider ID**: Store OAuth2 provider's unique user ID
+
+### Security Features
+- **Password Strength**: 8+ chars, uppercase, lowercase, number, special character
+- **Email Validation**: Format validation and domain verification
+- **Mobile Validation**: 10-digit number validation
+- **Session Security**: JWT with 512-bit signing key
+- **Token Rotation**: Refresh tokens rotated on each use
+- **Blacklisting**: Access tokens blacklisted on logout
+
+### Audit and Monitoring
+- **Authentication Events**: Log successful/failed logins
+- **Password Changes**: Track password reset events
+- **OAuth2 Events**: Log Google authentication attempts
+- **User Activity**: Track measurement operations per user
+- **Error Tracking**: Comprehensive error logging
+
+## API Endpoints
+
+### Authentication Endpoints
+```http
+POST /api/auth/register          # Local user registration
+POST /api/auth/login             # Local user login
+POST /api/auth/logout            # Secure logout with token blacklisting
+POST /api/auth/refresh           # Refresh access token
+POST /api/auth/forgotPassword/{email}  # Request password reset OTP
+POST /api/auth/resetPassword/{email}   # Reset password with OTP
+GET  /oauth2/authorize/google    # Google OAuth2 authorization
+GET  /login/oauth2/code/google   # Google OAuth2 callback
+```
+
+### User Management Endpoints
+```http
+GET  /api/user/me               # Get current user profile
+PUT  /api/user/profile          # Update user profile
+DELETE /api/user/account        # Delete user account
+GET  /api/user/history          # Get user's measurement history
+GET  /api/user/statistics       # Get user's usage statistics
+```
+
+## Security Implementation
+
+### JWT Token Structure
+```json
+{
+  "sub": "123",                    // User ID
+  "jti": "uuid",                   // JWT ID for blacklisting
+  "iat": 1640995200,              // Issued at
+  "exp": 1640998800,              // Expires at
+  "roles": ["ROLE_USER"],         // User roles
+  "provider": "google",           // Authentication provider
+  "email": "user@example.com"     // User email
+}
+```
+
+### OAuth2 Configuration
+```yaml
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope: email,profile
+        provider:
+          google:
+            user-name-attribute: sub
+```
+
+### Password Security
+- **BCrypt Hashing**: 12 rounds for secure password storage
+- **Strength Validation**: Comprehensive password policy
+- **Reset Token**: 6-digit OTP with 15-minute expiry
+- **Email Verification**: Track email verification status
+
+## Integration Points
+
+### Frontend Integration
+- **OAuth2 Redirect**: Seamless redirect to Google consent screen
+- **Token Storage**: Secure JWT storage in HTTP-only cookies or localStorage
+- **Session Management**: Automatic token refresh and logout handling
+- **Profile Sync**: Synchronize user profile from Google on login
+
+### Email Service Integration
+- **Welcome Emails**: Send welcome email after registration
+- **Password Reset**: Send OTP via email for password reset
+- **Email Templates**: Professional email templates for all communications
+- **Async Processing**: Non-blocking email sending
+
+### Monitoring Integration
+- **Actuator Endpoints**: Health checks and metrics
+- **Logging**: Structured logging for authentication events
+- **Error Tracking**: Comprehensive error handling and logging
+- **Performance Monitoring**: Track authentication performance
+
+## Postconditions
+- Users can authenticate via email/password or Google OAuth2
+- Seamless user registration for first-time Google users
+- Secure password reset with email OTP
+- Complete audit trail of authentication events
+- Scalable user management for enterprise use
+- All UC1–UC17 functionality preserved with authenticated access
+
+## Key Concepts
+- **OAuth2 Authorization Code Flow** with PKCE
+- **JWT-based Stateless Authentication**
+- **Refresh Token Rotation** for security
+- **Email OTP** for password reset
+- **User Profile Management** with OAuth2 integration
+- **Security Best Practices** (BCrypt, JWT, HTTPS)
+- **Audit Trail** for compliance and monitoring
+- **Scalable User Management** for enterprise deployment
+
+🔗 *Code Link:*   
+[Day 12 - UC18: Google Authentication and User Management](https://github.com/priyanshu-kumar-2511/QuantityMeasurementApp/tree/feature/UC18-Google-Authnetication)
+
