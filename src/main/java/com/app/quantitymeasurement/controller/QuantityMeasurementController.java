@@ -3,6 +3,7 @@ package com.app.quantitymeasurement.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,10 +22,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * REST Controller for Quantity Measurement operations.
- * This class provides endpoints for performing comparisons, conversions,
- * arithmetic operations (addition, subtraction, multiplication, division),
- * and retrieving measurement history.
+ * REST Controller for Quantity Measurement operations. This class provides
+ * endpoints for performing comparisons, conversions, arithmetic operations
+ * (addition, subtraction, multiplication, division), and retrieving measurement
+ * history.
  */
 @RestController
 @RequestMapping("/api/user/quantities")
@@ -33,152 +34,168 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class QuantityMeasurementController {
 
-	private final IQuantityMeasurementService service;
+    private final IQuantityMeasurementService service;
 
-	// ===================== COMPARE =====================
-	@PostMapping("/compare")
-	@Operation(summary = "Compare two quantities")
-	public ResponseEntity<?> performComparison(@Valid @RequestBody QuantityInputDTO input) {
+    // ===================== COMPARE =====================
+    @PostMapping("/compare")
+    @Operation(summary = "Compare two quantities")
+    public ResponseEntity<?> performComparison(@Valid @RequestBody QuantityInputDTO input) {
 
-		QuantityMeasurementDTO response = service.compare(input.getThisQuantityDTO(), input.getThatQuantityDTO());
+        QuantityMeasurementDTO response = service.compare(input.getThisQuantityDTO(), input.getThatQuantityDTO());
 
-		if (response.isError()) {
-			throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
-		}
-		
-		return ResponseEntity.ok(response);
-	}
+        if (response.isError()) {
+            throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
+        }
 
-	// ===================== CONVERT =====================
-	@PostMapping("/convert")
-	@Operation(summary = "Convert quantity")
-	public ResponseEntity<?> performConversion(@Valid @RequestBody QuantityInputDTO input) {
+        return ResponseEntity.ok(response);
+    }
 
-		QuantityMeasurementDTO response = service.convert(input.getThisQuantityDTO(),
-				input.getThatQuantityDTO().getUnit());
+    // ===================== CONVERT =====================
+    @PostMapping("/convert")
+    @Operation(summary = "Convert quantity")
+    public ResponseEntity<?> performConversion(@Valid @RequestBody QuantityInputDTO input) {
 
-		if (response.isError()) {
-			throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
-		}
+        QuantityMeasurementDTO response = service.convert(input.getThisQuantityDTO(),
+                input.getThatQuantityDTO().getUnit());
 
-		return ResponseEntity.ok(response);
-	}
+        if (response.isError()) {
+            throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
+        }
 
-	// ===================== ADD =====================
-	@PostMapping("/add")
-	@Operation(summary = "Add two quantities")
-	public ResponseEntity<?> performAddition(@Valid @RequestBody QuantityInputDTO input) {
+        return ResponseEntity.ok(response);
+    }
 
-		QuantityMeasurementDTO response = service.add(input.getThisQuantityDTO(), input.getThatQuantityDTO());
+    // ===================== ADD =====================
+    @PostMapping("/add")
+    @Operation(summary = "Add two quantities")
+    public ResponseEntity<?> performAddition(@Valid @RequestBody QuantityInputDTO input) {
 
-		if (response.isError()) {
-			throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
-		}
+        QuantityMeasurementDTO response = service.add(input.getThisQuantityDTO(), input.getThatQuantityDTO());
 
-		return ResponseEntity.ok(response);
-	}
+        if (response.isError()) {
+            throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
+        }
 
-	// ===================== ADD WITH TARGET =====================
-	@PostMapping("/add-with-target-unit")
-	@Operation(summary = "Add with target unit")
-	public ResponseEntity<?> performAdditionWithTargetUnit(@Valid @RequestBody QuantityInputDTO input) {
+        return ResponseEntity.ok(response);
+    }
 
-		QuantityMeasurementDTO response = service.add(input.getThisQuantityDTO(), input.getThatQuantityDTO(),
-				input.getTargetQuantityDTO());
-		
-		if (response.isError()) {
-			throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
-		}
-		
-		return ResponseEntity.ok(response);
-	}
+    // ===================== ADD WITH TARGET =====================
+    @PostMapping("/add-with-target-unit")
+    @Operation(summary = "Add with target unit")
+    public ResponseEntity<?> performAdditionWithTargetUnit(@Valid @RequestBody QuantityInputDTO input) {
 
-	// ===================== SUBTRACT =====================
-	@PostMapping("/subtract")
-	@Operation(summary = "Subtract two quantities")
-	public ResponseEntity<?> performSubtraction(@Valid @RequestBody QuantityInputDTO input) {
+        QuantityMeasurementDTO response = service.add(input.getThisQuantityDTO(), input.getThatQuantityDTO(),
+                input.getTargetQuantityDTO());
 
-		QuantityMeasurementDTO response = service.subtract(input.getThisQuantityDTO(), input.getThatQuantityDTO());
-		
-		if (response.isError()) {
-			throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
-		}
-		
-		return ResponseEntity.ok(response);
-	}
+        if (response.isError()) {
+            throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
+        }
 
-	// ===================== SUBTRACT WITH TARGET =====================
-	@PostMapping("/subtract-with-target-unit")
-	@Operation(summary = "Subtract with target unit")
-	public ResponseEntity<?> performSubtractionWithTargetUnit(@Valid @RequestBody QuantityInputDTO input) {
+        return ResponseEntity.ok(response);
+    }
 
-		QuantityMeasurementDTO response = service.subtract(input.getThisQuantityDTO(), input.getThatQuantityDTO(),
-				input.getTargetQuantityDTO());
-		
-		if (response.isError()) {
-			throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
-		}
-		
-		return ResponseEntity.ok(response);
+    // ===================== SUBTRACT =====================
+    @PostMapping("/subtract")
+    @Operation(summary = "Subtract two quantities")
+    public ResponseEntity<?> performSubtraction(@Valid @RequestBody QuantityInputDTO input) {
 
-	}
+        QuantityMeasurementDTO response = service.subtract(input.getThisQuantityDTO(), input.getThatQuantityDTO());
 
-	// ===================== MULTIPLY =====================
-	@PostMapping("/multiply")
-	@Operation(summary = "Multiply a quantity by a factor")
-	public ResponseEntity<?> performMultiplication(@Valid @RequestBody QuantityInputDTO input) {
+        if (response.isError()) {
+            throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
+        }
 
-		QuantityMeasurementDTO response = service.multiply(input.getThisQuantityDTO(),
-				input.getThatQuantityDTO().getValue());
-		
-		if (response.isError()) {
-			throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
-		}
-		
-		return ResponseEntity.ok(response);
+        return ResponseEntity.ok(response);
+    }
 
-	}
+    // ===================== SUBTRACT WITH TARGET =====================
+    @PostMapping("/subtract-with-target-unit")
+    @Operation(summary = "Subtract with target unit")
+    public ResponseEntity<?> performSubtractionWithTargetUnit(@Valid @RequestBody QuantityInputDTO input) {
 
-	// ===================== DIVIDE =====================
-	@PostMapping("/divide")
-	@Operation(summary = "Divide two quantities")
-	public ResponseEntity<?> performDivision(@Valid @RequestBody QuantityInputDTO input) {
+        QuantityMeasurementDTO response = service.subtract(input.getThisQuantityDTO(), input.getThatQuantityDTO(),
+                input.getTargetQuantityDTO());
 
-		QuantityMeasurementDTO response = service.divide(input.getThisQuantityDTO(),
-				input.getThatQuantityDTO());
-		
-		if (response.isError()) {
-			throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
-		}
+        if (response.isError()) {
+            throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
+        }
 
-		return ResponseEntity.ok(response);
-	}
+        return ResponseEntity.ok(response);
 
-	// ===================== HISTORY BY OPERATION =====================
-	@GetMapping("/history/operation/{operation}")
-	public ResponseEntity<List<?>> getOperationHistory(@PathVariable String operation) {
+    }
 
-		return ResponseEntity.ok(service.getOperationHistory(operation));
-	}
+    // ===================== MULTIPLY =====================
+    @PostMapping("/multiply")
+    @Operation(summary = "Multiply a quantity by a factor")
+    public ResponseEntity<?> performMultiplication(@Valid @RequestBody QuantityInputDTO input) {
 
-	// ===================== HISTORY BY TYPE =====================
-	@GetMapping("/history/type/{type}")
-	public ResponseEntity<List<?>> getHistoryByType(@PathVariable String type) {
+        QuantityMeasurementDTO response = service.multiply(input.getThisQuantityDTO(),
+                input.getThatQuantityDTO().getValue());
 
-		return ResponseEntity.ok(service.getMeasurementsByType(type));
-	}
+        if (response.isError()) {
+            throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
+        }
 
-	// ===================== COUNT =====================
-	@GetMapping("/count/{operation}")
-	public ResponseEntity<?> getOperationCount(@PathVariable String operation) {
+        return ResponseEntity.ok(response);
 
-		return ResponseEntity.ok(service.getOperationCount(operation));
-	}
+    }
 
-	// ===================== ERROR HISTORY =====================
-	@GetMapping("/history/errored")
-	public ResponseEntity<List<?>> getErroredOperations() {
+    // ===================== DIVIDE =====================
+    @PostMapping("/divide")
+    @Operation(summary = "Divide two quantities")
+    public ResponseEntity<?> performDivision(@Valid @RequestBody QuantityInputDTO input) {
 
-		return ResponseEntity.ok(service.getErrorHistory());
-	}
+        QuantityMeasurementDTO response = service.divide(input.getThisQuantityDTO(),
+                input.getThatQuantityDTO());
+
+        if (response.isError()) {
+            throw new com.app.quantitymeasurement.exception.QuantityMeasurementException(response.getErrorMessage());
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    // ===================== HISTORY BY OPERATION =====================
+    @GetMapping("/history/operation/{operation}")
+    public ResponseEntity<List<?>> getOperationHistory(@PathVariable String operation) {
+
+        return ResponseEntity.ok(service.getOperationHistory(operation));
+    }
+
+    // ===================== HISTORY BY TYPE =====================
+    @GetMapping("/history/type/{type}")
+    public ResponseEntity<List<?>> getHistoryByType(@PathVariable String type) {
+
+        return ResponseEntity.ok(service.getMeasurementsByType(type));
+    }
+
+    // ===================== COUNT =====================
+    @GetMapping("/count/{operation}")
+    public ResponseEntity<?> getOperationCount(@PathVariable String operation) {
+
+        return ResponseEntity.ok(service.getOperationCount(operation));
+    }
+
+    // ===================== DELETE ALL HISTORY =====================
+    @DeleteMapping("/history/all")
+    @Operation(summary = "Delete all history")
+    public ResponseEntity<?> deleteAllHistory() {
+        service.deleteAllHistory();
+        return ResponseEntity.ok("History deleted successfully");
+    }
+
+    // ===================== DELETE BY ID =====================
+    @DeleteMapping("/history/{id}")
+    @Operation(summary = "Delete history by id")
+    public ResponseEntity<?> deleteHistoryById(@PathVariable Long id) {
+        service.deleteHistoryById(id);
+        return ResponseEntity.ok("Record deleted successfully");
+    }
+
+    // ===================== ERROR HISTORY =====================
+    @GetMapping("/history/errored")
+    public ResponseEntity<List<?>> getErroredOperations() {
+
+        return ResponseEntity.ok(service.getErrorHistory());
+    }
 }

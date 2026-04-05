@@ -33,6 +33,8 @@ public class QuantityMeasurementDTO {
 
     private String errorMessage;
 
+    private Long id;
+    
     @JsonProperty("error")
     private boolean error;
 
@@ -40,29 +42,22 @@ public class QuantityMeasurementDTO {
      * Entity → DTO
      */
     public static QuantityMeasurementDTO from(QuantityMeasurementEntity entity) {
-
         if (entity == null) return null;
-
         QuantityMeasurementDTO dto = new QuantityMeasurementDTO();
-
         dto.setThisValue(entity.getThisValue());
         dto.setThisUnit(entity.getThisUnit());
         dto.setThisMeasurementType(entity.getThisMeasurementType());
-
         dto.setThatValue(entity.getThatValue());
         dto.setThatUnit(entity.getThatUnit());
         dto.setThatMeasurementType(entity.getThatMeasurementType());
-
         dto.setOperation(entity.getOperation());
-
         dto.setResultString(entity.getResultString());
         dto.setResultValue(entity.getResultValue());
         dto.setResultUnit(entity.getResultUnit());
         dto.setResultMeasurementType(entity.getResultMeasurementType());
-
-        dto.setError(entity.isError()); // correct for boolean
+        dto.setError(entity.isError());
         dto.setErrorMessage(entity.getErrorMessage());
-
+        dto.setId(entity.getId());  
         return dto;
     }
 
