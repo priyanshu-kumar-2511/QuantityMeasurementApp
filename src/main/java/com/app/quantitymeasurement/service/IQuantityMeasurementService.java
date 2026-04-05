@@ -6,9 +6,9 @@ import com.app.quantitymeasurement.dto.QuantityDTO;
 import com.app.quantitymeasurement.dto.QuantityMeasurementDTO;
 
 /**
- * Service interface for Quantity Measurement operations.
- * Defines methods for comparing, converting, and performing arithmetic 
- * on quantities, as well as accessing measurement history.
+ * Service interface for Quantity Measurement operations. Defines methods for
+ * comparing, converting, and performing arithmetic on quantities, as well as
+ * accessing measurement history.
  */
 public interface IQuantityMeasurementService {
 
@@ -47,6 +47,10 @@ public interface IQuantityMeasurementService {
 
     // Count operations
     long getOperationCount(String operation);
+
+    // Delete History
+    void deleteAllHistory();
+    void deleteHistoryById(Long id);
 
     // Get error history
     List<QuantityMeasurementDTO> getErrorHistory();

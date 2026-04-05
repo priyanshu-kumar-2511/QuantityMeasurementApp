@@ -23,9 +23,9 @@ import com.app.quantitymeasurement.unit.WeightUnit;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Implementation of IQuantityMeasurementService.
- * Handles the logic for unit conversions, comparisons, and arithmetic operations
- * while persisting each operation to the database via QuantityMeasurementRepository.
+ * Implementation of IQuantityMeasurementService. Handles the logic for unit
+ * conversions, comparisons, and arithmetic operations while persisting each
+ * operation to the database via QuantityMeasurementRepository.
  */
 @Service
 @RequiredArgsConstructor
@@ -261,6 +261,16 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
     }
 
     @Override
+    public void deleteAllHistory() {
+        repository.deleteAll();
+    }
+
+    @Override
+    public void deleteHistoryById(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
     public List<QuantityMeasurementDTO> getErrorHistory() {
         if (isAdmin()) {
             return QuantityMeasurementDTO.fromList(repository.findByIsErrorTrue());
@@ -271,14 +281,18 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
     }
 
     // ================== HELPER METHODS ==================
-
     private IMeasurable getUnitEnum(String measurementType, String unitStr) {
         switch (measurementType) {
-            case "LengthUnit": return LengthUnit.valueOf(unitStr);
-            case "VolumeUnit": return VolumeUnit.valueOf(unitStr);
-            case "WeightUnit": return WeightUnit.valueOf(unitStr);
-            case "TemperatureUnit": return TemperatureUnit.valueOf(unitStr);
-            default: throw new IllegalArgumentException("Unknown measurement type: " + measurementType);
+            case "LengthUnit":
+                return LengthUnit.valueOf(unitStr);
+            case "VolumeUnit":
+                return VolumeUnit.valueOf(unitStr);
+            case "WeightUnit":
+                return WeightUnit.valueOf(unitStr);
+            case "TemperatureUnit":
+                return TemperatureUnit.valueOf(unitStr);
+            default:
+                throw new IllegalArgumentException("Unknown measurement type: " + measurementType);
         }
     }
 
@@ -288,17 +302,17 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
         }
         IMeasurable u1 = getUnitEnum(q1.getMeasurementType(), q1.getUnit());
         IMeasurable u2 = getUnitEnum(q2.getMeasurementType(), q2.getUnit());
-        
+
         double val1 = u1.convertToBaseUnit(q1.getValue());
         double val2 = u2.convertToBaseUnit(q2.getValue());
-        
+
         return Math.abs(val1 - val2) < COMPARISON_TOLERANCE;
     }
 
     private double convertValue(QuantityDTO q, String targetUnitStr) {
         IMeasurable fromUnit = getUnitEnum(q.getMeasurementType(), q.getUnit());
         IMeasurable toUnit = getUnitEnum(q.getMeasurementType(), targetUnitStr);
-        
+
         double baseValue = fromUnit.convertToBaseUnit(q.getValue());
         return toUnit.convertFromBaseUnit(baseValue);
     }

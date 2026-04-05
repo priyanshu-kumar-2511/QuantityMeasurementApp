@@ -48,7 +48,8 @@ public class RefreshTokenService {
 
         // Rotate: delete any existing refresh token for this user
         refreshTokenRepository.deleteByUser(user);
-
+        refreshTokenRepository.flush();
+        
         RefreshToken refreshToken = RefreshToken.builder()
                 .user(user)
                 .token(UUID.randomUUID().toString())
