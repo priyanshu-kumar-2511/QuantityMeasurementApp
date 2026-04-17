@@ -58,9 +58,9 @@ services:
       - TZ=Asia/Kolkata
       - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
       - DB_URL=jdbc:mysql://mysql-db:3306/quantitymeasurement_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Kolkata
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - APP_AUTH_TOKEN_SECRET=${APP_AUTH_TOKEN_SECRET}
+      - DB_USERNAME=root
+      - DB_PASSWORD=Priyanshu@MySql
+      - APP_AUTH_TOKEN_SECRET=6d5u6rytrjyd5u657udryrjy56f6rft7676d6ujdtuytuytuyftdtdretrey54
     networks:
       - quantity-network
     depends_on:
