@@ -1,0 +1,150 @@
+
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=Priyanshu@MySql
+      - MYSQL_DATABASE=quantitymeasurement_db
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - quantity-network
+
+  redis-db:
+    image: redis:alpine
+    container_name: redis-db
+    ports:
+      - "6379:6379"
+    networks:
+      - quantity-network
+
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka-server
+    environment:
+      - TZ=Asia/Kolkata
+    ports:
+      - "8761:8761"
+    networks:
+      - quantity-network
+    healthcheck:
+      test: [ "CMD", "wget", "-qO-", "http://localhost:8761/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Asia/Kolkata
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - SERVER_PORT=8080
+    networks:
+      - quantity-network
+    depends_on:
+      - eureka-server
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    ports:
+      - "8082:8082"
+    environment:
+      - TZ=Asia/Kolkata
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - DB_URL=jdbc:mysql://mysql-db:3306/quantitymeasurement_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Kolkata
+      - DB_USERNAME=root
+      - DB_PASSWORD=Priyanshu@MySql
+      - APP_AUTH_TOKEN_SECRET=6d5u6rytrjyd5u657udryrjy56f6rft7676d6ujdtuytuytuyftdtdretrey54
+    networks:
+      - quantity-network
+    depends_on:
+      - mysql-db
+      - eureka-server
+
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    ports:
+      - "8083:8083"
+    environment:
+      - TZ=Asia/Kolkata
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - DB_URL=jdbc:mysql://mysql-db:3306/quantitymeasurement_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Kolkata
+      - DB_USERNAME=root
+      - DB_PASSWORD=Priyanshu@MySql
+      - SPRING_DATA_REDIS_HOST=redis-db
+      - SPRING_DATA_REDIS_PORT=6379
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - APP_OAUTH2_REDIRECT_URI=http://localhost:4200/login
+      - APP_OAUTH2_GOOGLE_REDIRECT_URI=http://localhost:8080/login/oauth2/code/google
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_PORT=587
+      - MAIL_USERNAME=kumarpriyanshu77828@gmail.com
+      - MAIL_PASSWORD=utcz pgev kkvo iauh
+      - APP_AUTH_TOKEN_SECRET=6d5u6rytrjyd5u657udryrjy56f6rft7676d6ujdtuytuytuyftdtdretrey54
+      - APP_AUTH_TOKEN_EXPIRATION_MSEC=864000000
+      - APP_AUTH_REFRESH_TOKEN_EXPIRATION_MSEC=2592000000
+    networks:
+      - quantity-network
+    depends_on:
+      - mysql-db
+      - eureka-server
+      - redis-db
+
+  measurement-service:
+    build: ./measurement-service
+    container_name: measurement-service
+    ports:
+      - "8081:8081"
+    environment:
+      - TZ=Asia/Kolkata
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+      - DB_URL=jdbc:mysql://mysql-db:3306/quantitymeasurement_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Kolkata
+      - DB_USERNAME=root
+      - DB_PASSWORD=Priyanshu@MySql
+      - SPRING_DATA_REDIS_HOST=redis-db
+      - SPRING_DATA_REDIS_PORT=6379
+      - APP_AUTH_TOKEN_SECRET=6d5u6rytrjyd5u657udryrjy56f6rft7676d6ujdtuytuytuyftdtdretrey54
+    networks:
+      - quantity-network
+    depends_on:
+      - mysql-db
+      - eureka-server
+      - redis-db
+
+  admin-server:
+    build: ./admin-server
+    container_name: admin-server
+    ports:
+      - "9090:9090"
+    environment:
+      - TZ=Asia/Kolkata
+      - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
+    networks:
+      - quantity-network
+    depends_on:
+      - eureka-server
+
+  frontend:
+    build: ../QuantityMeasurementApp-Frontend
+    container_name: frontend
+    ports:
+      - "4200:80"
+    networks:
+      - quantity-network
+
+networks:
+  quantity-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
