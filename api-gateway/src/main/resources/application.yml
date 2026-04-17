@@ -57,20 +57,26 @@ spring:
                   filters:
                       - RewritePath=/api/convert/(?<segment>.*), /api/user/quantities/convert/${segment}
 
-                - id: swagger-ui-html-route
-                  uri: http://localhost:8080
+                - id: auth-api-docs-route
+                  uri: lb://auth-service
                   predicates:
-                      - Path=/swagger-ui.html
+                      - Path=/v3/api-docs/auth-service
+                  filters:
+                      - RewritePath=/v3/api-docs/auth-service, /v3/api-docs
 
-                - id: swagger-ui-resources-route
-                  uri: http://localhost:8080
+                - id: measurement-api-docs-route
+                  uri: lb://measurement-service
                   predicates:
-                      - Path=/swagger-ui/**
+                      - Path=/v3/api-docs/measurement-service
+                  filters:
+                      - RewritePath=/v3/api-docs/measurement-service, /v3/api-docs
 
-                - id: api-docs-route
-                  uri: http://localhost:8080
+                - id: user-api-docs-route
+                  uri: lb://user-service
                   predicates:
-                      - Path=/v3/api-docs/**
+                      - Path=/v3/api-docs/user-service
+                  filters:
+                      - RewritePath=/v3/api-docs/user-service, /v3/api-docs
 
                 - id: oauth2-route
                   uri: lb://auth-service
@@ -129,6 +135,13 @@ management:
 springdoc:
     swagger-ui:
         path: /swagger-ui.html
+        urls:
+            - name: Auth Service
+              url: /v3/api-docs/auth-service
+            - name: Measurement Service
+              url: /v3/api-docs/measurement-service
+            - name: User Service
+              url: /v3/api-docs/user-service
     api-docs:
         path: /v3/api-docs
     show-actuator: true

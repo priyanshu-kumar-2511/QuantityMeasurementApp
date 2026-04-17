@@ -72,6 +72,7 @@ public class SecurityConfig {
                     "/", "/error", "/favicon.ico"
                 ).permitAll()
                 .requestMatchers("/api/auth/**", "/oauth2/**", "/actuator/**").permitAll()
+                .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/v3/api-docs").permitAll()
                 .anyRequest().authenticated()
             )
             .oauth2Login(oauth2 -> oauth2

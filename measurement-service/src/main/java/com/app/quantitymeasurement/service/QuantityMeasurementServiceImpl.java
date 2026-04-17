@@ -123,7 +123,9 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
     public QuantityMeasurementDTO compare(QuantityDTO q1, QuantityDTO q2) {
         log.debug("compare() called with q1: {} {}, q2: {} {}", q1.getValue(), q1.getUnit(), q2.getValue(), q2.getUnit());
         QuantityMeasurementEntity entity = new QuantityMeasurementEntity();
-        boolean result = performComparison(q1, q2);
+        
+        String relation = performComparisonAndGetRelation(q1, q2);
+        
         entity.setThisValue(q1.getValue());
         entity.setThisUnit(q1.getUnit());
         entity.setThisMeasurementType(q1.getMeasurementType());
@@ -131,7 +133,7 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
         entity.setThatUnit(q2.getUnit());
         entity.setThatMeasurementType(q2.getMeasurementType());
         entity.setOperation("COMPARE");
-        entity.setResultString(result ? "true" : "false");
+        entity.setResultString(relation);
         entity.setError(false);
         if (isUserAuthenticated()) {
             entity.setUserId(getCurrentUserIdRaw());
@@ -380,14 +382,21 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
         }
     }
 
-    private boolean performComparison(QuantityDTO q1, QuantityDTO q2) {
+    private String performComparisonAndGetRelation(QuantityDTO q1, QuantityDTO q2) {
         if (!q1.getMeasurementType().equals(q2.getMeasurementType()))
             throw new IllegalArgumentException("Cannot compare different measurement types");
         IMeasurable u1 = getUnitEnum(q1.getMeasurementType(), q1.getUnit());
         IMeasurable u2 = getUnitEnum(q2.getMeasurementType(), q2.getUnit());
         double val1 = u1.convertToBaseUnit(q1.getValue());
         double val2 = u2.convertToBaseUnit(q2.getValue());
-        return Math.abs(val1 - val2) < COMPARISON_TOLERANCE;
+        
+        if (Math.abs(val1 - val2) < COMPARISON_TOLERANCE) {
+            return "=";
+        } else if (val1 < val2) {
+            return "<";
+        } else {
+            return ">";
+        }
     }
 
     private double convertValue(QuantityDTO q, String targetUnitStr) {

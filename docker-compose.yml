@@ -1,11 +1,9 @@
-
-
 services:
   mysql-db:
     image: mysql:8.0
     container_name: mysql-db
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=Priyanshu@MySql
       - MYSQL_DATABASE=quantitymeasurement_db
@@ -78,21 +76,21 @@ services:
       - TZ=Asia/Kolkata
       - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
       - DB_URL=jdbc:mysql://mysql-db:3306/quantitymeasurement_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Kolkata
-      - DB_USERNAME=root
-      - DB_PASSWORD=Priyanshu@MySql
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
       - SPRING_DATA_REDIS_HOST=redis-db
       - SPRING_DATA_REDIS_PORT=6379
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - APP_OAUTH2_REDIRECT_URI=http://localhost:4200/login
       - APP_OAUTH2_GOOGLE_REDIRECT_URI=http://localhost:8080/login/oauth2/code/google
-      - MAIL_HOST=smtp.gmail.com
-      - MAIL_PORT=587
-      - MAIL_USERNAME=kumarpriyanshu77828@gmail.com
-      - MAIL_PASSWORD=utcz pgev kkvo iauh
-      - APP_AUTH_TOKEN_SECRET=6d5u6rytrjyd5u657udryrjy56f6rft7676d6ujdtuytuytuyftdtdretrey54
-      - APP_AUTH_TOKEN_EXPIRATION_MSEC=864000000
-      - APP_AUTH_REFRESH_TOKEN_EXPIRATION_MSEC=2592000000
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_PORT=587${MAIL_PORT}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - APP_AUTH_TOKEN_SECRET=${APP_AUTH_TOKEN_SECRET}
+      - APP_AUTH_TOKEN_EXPIRATION_MSEC=${APP_AUTH_TOKEN_EXPIRATION_MSEC}
+      - APP_AUTH_REFRESH_TOKEN_EXPIRATION_MSEC=${APP_AUTH_REFRESH_TOKEN_EXPIRATION_MSEC}
     networks:
       - quantity-network
     depends_on:
@@ -109,11 +107,11 @@ services:
       - TZ=Asia/Kolkata
       - EUREKA_SERVER_URL=http://eureka-server:8761/eureka/
       - DB_URL=jdbc:mysql://mysql-db:3306/quantitymeasurement_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Kolkata
-      - DB_USERNAME=root
-      - DB_PASSWORD=Priyanshu@MySql
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
       - SPRING_DATA_REDIS_HOST=redis-db
       - SPRING_DATA_REDIS_PORT=6379
-      - APP_AUTH_TOKEN_SECRET=6d5u6rytrjyd5u657udryrjy56f6rft7676d6ujdtuytuytuyftdtdretrey54
+      - APP_AUTH_TOKEN_SECRET=${APP_AUTH_TOKEN_SECRET}
     networks:
       - quantity-network
     depends_on:
